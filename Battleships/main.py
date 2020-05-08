@@ -28,8 +28,8 @@ btnplayer = pygame.Rect(55,111,339,339)
 
 #Initial Values
 Ptab = np.zeros((10,10), dtype = np.int32)
-Btab = np.zeros((10,10), dtype = np.int32)
-Btap = bsp.generate_bot_ships(Bmap)
+Bmap = np.zeros((10,10), dtype = np.int32)
+Bmap = bfb.generate_bot_ships(Bmap)
 
 running = True
 click = False
@@ -53,11 +53,11 @@ while running:
                 pygame.draw.rect(screen, green, (55+34*y,111+34*x,32,32))
             if Ptab[x][y] == 2:
                 pygame.draw.rect(screen, red, (55+34*y,111+34*x,32,32))
-            if Btab[x][y] == 0
+            if Bmap[x][y] == 0:
                 pygame.draw.rect(screen, blue, (416+34*y,111+34*x,32,32))
-            if Btab[x][y] == 1:
+            if Bmap[x][y] == 1:
                 pygame.draw.rect(screen, green, (416+34*y,111+34*x,32,32))
-            if Btab[x][y] == 2:
+            if Bmap[x][y] == 2:
                 pygame.draw.rect(screen, red, (416+34*y,111+34*x,32,32))
     
     #Clickable buttons 

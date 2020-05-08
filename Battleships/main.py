@@ -12,6 +12,7 @@ pygame.display.set_caption("Battleships")
 icon = pygame.image.load("Resources/ship.png")
 bg = pygame.image.load("Resources/background.png")
 haha = pygame.image.load("Resources/haha.jpg")
+haha = pygame.transform.scale(haha, (339, 339))
 font = pygame.font.Font("Resources/overpass-regular.otf", 12)
 pygame.display.set_icon(icon)
 
@@ -21,8 +22,8 @@ green = (0, 200, 0)
 blue = (0, 0, 200)
 
 #Rect Buttons
-btn1 = pygame.Rect(700,50,80,40)
-btnplayer = pygame.Rect(55,111,361,417)
+btnhidebot = pygame.Rect(700,50,80,40)
+btnplayer = pygame.Rect(55,111,339,339)
 
 #Initial Values
 Ptab = np.zeros((10,10), dtype = np.int32)
@@ -37,7 +38,7 @@ while running:
     screen.blit(bg,(0,0))
     mx, my = pygame.mouse.get_pos()
     
-    pygame.draw.rect(screen, red, btn1)
+    pygame.draw.rect(screen, red, btnhidebot)
     
     for x in range(10):
         for y in range(10):
@@ -48,26 +49,24 @@ while running:
             if Ptab[x][y] == 2:
                 pygame.draw.rect(screen, red, (55+34*y,111+34*x,32,32))
         
-    if btn1.collidepoint((mx,my)):
+    if btnhidebot.collidepoint((mx,my)):
         if click:
             if hahad:
                 hahad = False
                 pass 
             else:
                 hahad = True
-                pass 
+                pass
             
     if btnplayer.collidepoint((mx,my)):
         if click:
-            #print(mx)
-            #print(my)
             if mx >= 55 and mx < 395 and my >= 111 and my < 451:
                 Ptab = bsf.change_ship(Ptab,my - 111,mx - 55)
             #print(Ptab)
             pass
     
     if(hahad == True):
-        screen.blit(haha,(400,100))
+        screen.blit(haha,(416,111))
     
     pygame.display.update()
     

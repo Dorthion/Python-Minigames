@@ -24,6 +24,7 @@ blue = (0, 0, 200)
 
 #Rect Buttons
 btnhidebot = pygame.Rect(700,50,80,40)
+btnrandbot = pygame.Rect(600,50,80,40)
 btnplayer = pygame.Rect(55,111,339,339)
 
 #Initial Values
@@ -43,6 +44,7 @@ while running:
     
     #Draw hiding button
     pygame.draw.rect(screen, red, btnhidebot)
+    pygame.draw.rect(screen, red, btnrandbot)
     
     #Draw player 
     for x in range(10):
@@ -65,17 +67,19 @@ while running:
         if click:
             if hahad:
                 hahad = False
-                pass 
             else:
                 hahad = True
-                pass
             
     if btnplayer.collidepoint((mx,my)):
         if click:
             if mx >= 55 and mx < 395 and my >= 111 and my < 451:
                 Ptab = bfp.change_ship(Ptab,my - 111,mx - 55)
-            #print(Ptab)
-            pass
+        
+    if btnrandbot.collidepoint((mx,my)):
+        if click:
+            Bmap = np.zeros((10,10), dtype = np.int32)
+            Bmap = bfb.generate_bot_ships(Bmap)
+
     
     #Check to draw haha
     if(hahad == True):

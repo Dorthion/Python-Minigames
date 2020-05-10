@@ -1,6 +1,6 @@
 import random as rand
 import numpy as np
-from source import battleships_functions_check as bfc
+from Source import battleships_functions_check as bfc
 
 def generate_bot_ships(bmap):
     ship_size = 4

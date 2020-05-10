@@ -11,3 +11,5 @@ BLUE = (0, 0, 200)
 
 #State
 RUNNING = True
+SHOW_HAHA = True
+CLICK = False

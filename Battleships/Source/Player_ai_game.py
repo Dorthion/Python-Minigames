@@ -6,6 +6,8 @@ from Source import battleships_functions_bot as bfb
 from Source import battleships_functions_player as bfp
 
 def Play_Game(screen, bg):
+    screen, bg = UI.Update_Screen_Values(screen, bg)
+    
     #Resources (Images, Icons, Fonts)
     haha = pygame.image.load("Assets/Images/haha.jpg")
     haha = pygame.transform.scale(haha, (339, 339))

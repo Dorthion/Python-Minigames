@@ -74,7 +74,7 @@ def check_if_fit_in_column(bmap, y, ss):
     i = 0
     is_good = 0
     failed = False
-    while i < Set.Y_RANGE - 1:
+    while i < Set.Y_RANGE:
         failed = check_column(bmap,y,i)
         if failed == False:
             is_good = is_good + 1

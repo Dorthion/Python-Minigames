@@ -32,10 +32,10 @@ def change_number(pmap, number, y, x):
     #Sprawdzić trzeba 8 pól, lecz tym sposobem jest sprawdzane 16 pól
     if number == 1:
         pmap[y][x] = 0
-        check_if_still_red(pmap, x - 1, y - 1)
-        check_if_still_red(pmap, x + 1, y - 1)
-        check_if_still_red(pmap, x - 1, y + 1)
-        check_if_still_red(pmap, x + 1, y + 1)
+        check_if_still_red(pmap, y - 1, x - 1)
+        check_if_still_red(pmap, y + 1, x - 1)
+        check_if_still_red(pmap, y - 1, x + 1)
+        check_if_still_red(pmap, y + 1, x + 1)
         return pmap
     
     if number == 2:
@@ -43,7 +43,7 @@ def change_number(pmap, number, y, x):
     
     return pmap
 
-def check_if_still_red(pmap, x, y):
+def check_if_still_red(pmap, y, x):
     temp = 4
     if y - 1 >= 0 and x - 1 >= 0:
         if pmap[y - 1][x - 1] == 1:

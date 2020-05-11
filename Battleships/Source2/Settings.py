@@ -3,6 +3,7 @@ TITLE = "Battleships"
 WIDTH = 800
 HEIGHT = 600
 FPS = 144
+SHIP_SIZE = 4
 
 #Colors
 RED = (200, 0, 0)

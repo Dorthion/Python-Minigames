@@ -1,6 +1,7 @@
 import pygame
 import numpy as np
 from Source import Settings as Set
+from Source import UI_functions as UI
 from Source import battleships_functions_bot as bfb
 from Source import battleships_functions_player as bfp
 
@@ -10,15 +11,12 @@ def Play_Game(screen, bg):
     haha = pygame.transform.scale(haha, (339, 339))
     #font = pygame.font.Font("Resources/overpass-regular.otf", 12)
 
-    #Rect Buttons
-    btnhidebot = pygame.Rect(700,50,80,40)
-    btnrandbot = pygame.Rect(600,50,80,40)
-    btnplayer = pygame.Rect(55,111,339,339)
-
     #Initial Values
     Ptab = np.zeros((10,10), dtype = np.int32)
     Bmap = np.zeros((10,10), dtype = np.int32)
     Bmap = bfb.generate_bot_ships(Bmap)
+    rects = UI.Rect_Player_AI()
+    rect_map = UI.Rect_Player_AI_Map()
 
     #InGame
     while Set.RUNNING:
@@ -27,40 +25,25 @@ def Play_Game(screen, bg):
         mx, my = pygame.mouse.get_pos()
         screen.blit(bg,(0,0))
 
-        #Draw hiding button
-        pygame.draw.rect(screen, Set.RED, btnhidebot)
-        pygame.draw.rect(screen, Set.RED, btnrandbot)
-
-        #Draw player 
-        for x in range(10):
-            for y in range(10):
-                if Ptab[x][y] == 0:
-                    pygame.draw.rect(screen, Set.BLUE, (55+34*y,111+34*x,32,32))
-                if Ptab[x][y] == 1:
-                    pygame.draw.rect(screen, Set.GREEN, (55+34*y,111+34*x,32,32))
-                if Ptab[x][y] == 2:
-                    pygame.draw.rect(screen, Set.RED, (55+34*y,111+34*x,32,32))
-                if Bmap[x][y] == 0:
-                    pygame.draw.rect(screen, Set.BLUE, (416+34*y,111+34*x,32,32))
-                if Bmap[x][y] == 1:
-                    pygame.draw.rect(screen, Set.GREEN, (416+34*y,111+34*x,32,32))
-                if Bmap[x][y] == 2:
-                    pygame.draw.rect(screen, Set.RED, (416+34*y,111+34*x,32,32))
-
+        #Draw functions 
+        UI.Draw_Red_Btn(screen, rects)
+        UI.Draw_Player_Map(screen, Ptab)
+        UI.Draw_Player_AI2(screen, Bmap)
+        
         #Clickable buttons 
-        if btnhidebot.collidepoint((mx,my)):
+        if rects[0].collidepoint((mx,my)):
             if Set.CLICK:
                 if Set.SHOW_HAHA:
                     Set.SHOW_HAHA = False
                 else:
                     Set.SHOW_HAHA = True
 
-        if btnplayer.collidepoint((mx,my)):
+        if rect_map.collidepoint((mx,my)):
             if Set.CLICK:
                 if mx >= 55 and mx < 395 and my >= 111 and my < 451:
                     Ptab = bfp.change_ship(Ptab,my - 111,mx - 55)
 
-        if btnrandbot.collidepoint((mx,my)):
+        if rects[1].collidepoint((mx,my)):
             if Set.CLICK:
                 Bmap = np.zeros((10,10), dtype = np.int32)
                 Bmap = bfb.generate_bot_ships(Bmap)

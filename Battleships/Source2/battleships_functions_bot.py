@@ -1,19 +1,22 @@
 import random as rand
 import numpy as np
 from Source import battleships_functions_check as bfc
+from Source import Settings as Set
 
 def generate_bot_ships(bmap):
-    ship_size = 4
     count = 1
-    while ship_size > 0:
-        bmap = put_ship_on_map(bmap, ship_size, count)
-        ship_size = ship_size - 1
+    Temp_SHIP_SIZE = Set.SHIP_SIZE
+    
+    while Set.SHIP_SIZE > 0:
+        bmap = put_ship_on_map(bmap, Set.SHIP_SIZE, count)
+        Set.SHIP_SIZE = Set.SHIP_SIZE - 1
         count = count + 1
-        
         if np.count_nonzero(bmap) == 100:  # if everything screw up, try again
-            ship_size = 4
+            Set.SHIP_SIZE = 4
             count = 1
+            
     bmap = color_blocked_positions(bmap)
+    Set.SHIP_SIZE = Temp_SHIP_SIZE
     return bmap
 
 def put_ship_on_map(bmap, ss, c):

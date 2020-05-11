@@ -12,8 +12,8 @@ def Play_Game(screen, bg):
     #font = pygame.font.Font("Resources/overpass-regular.otf", 12)
 
     #Initial Values
-    Ptab = np.zeros((10,10), dtype = np.int32)
-    Bmap = np.zeros((10,10), dtype = np.int32)
+    Ptab = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
+    Bmap = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
     Bmap = bfb.generate_bot_ships(Bmap)
     rects = UI.Rect_Player_AI()
     rect_map = UI.Rect_Player_AI_Map()
@@ -45,7 +45,7 @@ def Play_Game(screen, bg):
 
         if rects[1].collidepoint((mx,my)):
             if Set.CLICK:
-                Bmap = np.zeros((10,10), dtype = np.int32)
+                Bmap = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
                 Bmap = bfb.generate_bot_ships(Bmap)
 
         #Check to draw haha

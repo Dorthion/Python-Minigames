@@ -40,32 +40,32 @@ def check_corners(bmap,y,x):
         if bmap[y - 1][x - 1] == 1:
             return True
                 
-    if y + 1 < Set.Y_RANGE - 1 and x - 1 >= 0:  #Left Bottom Side
+    if y + 1 < Set.Y_RANGE and x - 1 >= 0:  #Left Bottom Side
         if bmap[y + 1][x - 1] == 1:
             return True
                 
-    if y - 1 >= 0 and x + 1 < Set.X_RANGE - 1:  #Right Top Side
+    if y - 1 >= 0 and x + 1 < Set.X_RANGE:  #Right Top Side
         if bmap[y - 1][x + 1] == 1:
             return True
                 
-    if y + 1 < Set.Y_RANGE - 1 and x + 1 < Set.X_RANGE - 1:  #Right Bottom Side
+    if y + 1 < Set.Y_RANGE and x + 1 < Set.X_RANGE:  #Right Bottom Side
         if bmap[y + 1][x + 1] == 1:
             return True
     return False
 
 def check_neighbour(bmap,y,x):
-    if y - 1 >= 0:  #Top Side
+    if y - 1 >= 0:               #Top Side
         if bmap[y - 1][x] == 1:
             return True
                 
-    if y + 1 <= Set.Y_RANGE -1:  #Bottom Side
+    if y + 1 < Set.Y_RANGE:      #Bottom Side
         if bmap[y + 1][x] == 1:
             return True
-    if x - 1 >= 0:  #Left Side
+    if x - 1 >= 0:               #Left Side
         if bmap[y][x - 1] == 1:
             return True
                 
-    if x + 1 <= Set.X_RANGE - 1:  #Right Side
+    if x + 1 < Set.X_RANGE:      #Right Side
         if bmap[y][x + 1] == 1:
             return True
     return False

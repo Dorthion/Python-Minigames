@@ -1,7 +1,5 @@
 from Source import Settings as Set
 def check_column(bmap,y,x):
-    print(y)
-    print(x)
     if bmap[y][x] == 1:            #Center
         return True
             

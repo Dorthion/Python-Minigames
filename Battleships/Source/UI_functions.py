@@ -13,7 +13,7 @@ def Rect_Player_AI():
             pygame.Rect(600,50,80,40)] #btnrandbot
 
 def Rect_Player_AI_Map():
-    return pygame.Rect(55,111,339,339) #btnplayer
+    return pygame.Rect(50,100,34*X_RANGE,34*Y_RANGE) #btnplayer
 
 #Draw functions
 def Draw_Red_Btn(screen, rects):

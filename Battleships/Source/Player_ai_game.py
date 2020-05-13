@@ -10,7 +10,7 @@ def Play_Game(screen, bg):
     
     #Resources (Images, Icons, Fonts)
     haha = pygame.image.load("Assets/Images/haha.jpg")
-    haha = pygame.transform.scale(haha, (339, 339))
+    haha = pygame.transform.scale(haha, (34*Set.X_RANGE, 34*Set.Y_RANGE))
     #font = pygame.font.Font("Resources/overpass-regular.otf", 12)
 
     #Initial Values
@@ -42,8 +42,8 @@ def Play_Game(screen, bg):
 
         if rect_map.collidepoint((mx,my)):
             if Set.CLICK:
-                if mx >= 55 and mx < 395 and my >= 111 and my < 451:
-                    Ptab = bfp.change_ship(Ptab,my - 111,mx - 55)
+                if mx >= 50 and mx < 50+34*Set.X_RANGE and my >= 100 and my < 100+34*Set.Y_RANGE:
+                    Ptab = bfp.change_ship(Ptab,my - 100,mx - 50)
 
         if rects[1].collidepoint((mx,my)):
             if Set.CLICK:
@@ -52,7 +52,7 @@ def Play_Game(screen, bg):
 
         #Check to draw haha
         if(Set.SHOW_HAHA == True):
-            screen.blit(haha,(416,111))
+            screen.blit(haha,((Set.X_RANGE * 34) + 100,100))
 
         #Events and update
         pygame.display.update()

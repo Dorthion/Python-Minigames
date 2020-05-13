@@ -5,9 +5,9 @@ HEIGHT = 600
 FPS = 144
 
 #Game Rules
-SHIP_SIZE = 4
-X_RANGE = 10
-Y_RANGE = 10
+SHIP_SIZE = 16
+X_RANGE = 50
+Y_RANGE = 50
 
 #Colors
 RED = (200, 0, 0)
@@ -18,3 +18,4 @@ BLUE = (0, 0, 200)
 RUNNING = True
 SHOW_HAHA = True
 CLICK = False
+CANT_GENERATE = False

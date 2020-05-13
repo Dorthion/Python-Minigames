@@ -1,9 +1,13 @@
-#GAME
+#Basic Settings of App
 TITLE = "Battleships"
 WIDTH = 800
 HEIGHT = 600
 FPS = 144
-SHIP_SIZE = 4
+
+#Game Rules
+SHIP_SIZE = 16
+X_RANGE = 50
+Y_RANGE = 50
 
 #Colors
 RED = (200, 0, 0)
@@ -14,3 +18,4 @@ BLUE = (0, 0, 200)
 RUNNING = True
 SHOW_HAHA = True
 CLICK = False
+CANT_GENERATE = False

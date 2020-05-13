@@ -6,15 +6,22 @@ from Source import Settings as Set
 def generate_bot_ships(bmap):
     count = 1
     Temp_SHIP_SIZE = Set.SHIP_SIZE
+    Temp_trying_to_generate = 0
     
     while Set.SHIP_SIZE > 0:
         bmap = put_ship_on_map(bmap, Set.SHIP_SIZE, count)
         Set.SHIP_SIZE = Set.SHIP_SIZE - 1
         count = count + 1
-        if np.count_nonzero(bmap) == 100:  # if everything screw up, try again
-            Set.SHIP_SIZE = 4
+        
+        if np.count_nonzero(bmap) == 0:  # if everything screw up, try again
+            Temp_trying_to_generate = Temp_trying_to_generate + 1
+            Set.SHIP_SIZE = Temp_SHIP_SIZE
             count = 1
-            
+            if Temp_trying_to_generate == 100:
+                Set.CANT_GENERATE = True
+                bmap = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
+                return bmap
+         
     bmap = color_blocked_positions(bmap)
     Set.SHIP_SIZE = Temp_SHIP_SIZE
     return bmap
@@ -22,23 +29,40 @@ def generate_bot_ships(bmap):
 def put_ship_on_map(bmap, ss, c):
     ship_located = False
     count = 0
+    temp = 0
     while count < c:
         ship_located = False
         while ship_located == False:
             if bool(rand.getrandbits(1)) == True:     #Choose 1 bit: true - column, false - row
-                yloc = rand.randrange(0,9)
+                yloc = rand.randrange(0, Set.Y_RANGE)
                 check = bfc.check_if_fit_in_column(bmap, yloc, ss)
                 if check == True:
                     bmap = put_column_ship(bmap, yloc, ss)
+                    if np.count_nonzero(bmap) == 0:
+                        return bmap
                     count = count + 1
                     ship_located = True
+                else:
+                    temp = temp + 1
+                if temp == 10000:
+                    bmap = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
+                    return bmap
             else:
-                xloc = rand.randrange(0,9)
+                xloc = rand.randrange(0,Set.X_RANGE)
                 check = bfc.check_if_fit_in_row(bmap, xloc, ss)
                 if check == True:
                     bmap = put_row_ship(bmap, xloc, ss)
+                    if np.count_nonzero(bmap) == 0:
+                        return bmap
                     count = count + 1
                     ship_located = True
+                else:
+                    temp = temp + 1
+                if temp == 10000:
+                    bmap = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
+                    return bmap
+            
+        #print(bmap)
     return bmap
 
 def put_column_ship(bmap, y, ss):
@@ -50,13 +74,13 @@ def put_column_ship(bmap, y, ss):
     retry = False
     retrying = 0
     
-    nb = rand.randrange(0,9)
+    nb = rand.randrange(0,Set.X_RANGE)
     
-    while bmap[y][nb] is 0:
-        nb = rand.randrange(0,9)
+    while bmap[y][nb] == 1:
+        nb = rand.randrange(0,Set.X_RANGE)
     
     while ship_size < ss:
-        if direction == 0 and y + i_to_bottom <= 9: #Coming into bottom side
+        if direction == 0 and y + i_to_bottom < Set.Y_RANGE: #Coming into bottom side
             if bfc.check_column(bmap, y + i_to_bottom, nb) == True or bfc.check_neighbour(bmap,y + i_to_bottom,nb) == True:
                 direction = 1
             else:
@@ -67,7 +91,7 @@ def put_column_ship(bmap, y, ss):
                     first_put = True
                     i_to_top = 1
         else:
-            if y + i_to_bottom == 10:
+            if y + i_to_bottom == Set.Y_RANGE:
                 direction = 1
             
         if direction == 1 and y - i_to_top >= 0: #Coming into top side
@@ -90,21 +114,20 @@ def put_column_ship(bmap, y, ss):
             direction = 0
             first_put = False
             retrying = retrying + 1
-            nb = rand.randrange(0,9)
-            y = rand.randrange(0,9)
+            nb = rand.randrange(0,Set.X_RANGE - 1)
+            y = rand.randrange(0,Set.Y_RANGE - 1)
             while bmap[y][nb] is 0:
-                nb = rand.randrange(0,9)
-                y = rand.randrange(0,9)
+                nb = rand.randrange(0,Set.X_RANGE)
+                y = rand.randrange(0,Set.Y_RANGE)
             
         if retrying == 100:
-            Bmap = np.zeros((10,10), dtype = np.int32) #Clear map and try again
+            bmap = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32) #Clear map and try again
             return bmap
             
         if ship_size == ss and retry == False:
             bmap = np.where(bmap == 3,1,bmap)
             return bmap
     return bmap
-
 
 def put_row_ship(bmap, x, ss):
     i_to_right = 0
@@ -115,14 +138,14 @@ def put_row_ship(bmap, x, ss):
     retry = False
     retrying = 0
     
-    nb = rand.randrange(0,9)
+    nb = rand.randrange(0,Set.Y_RANGE - 1)
     
-    while bmap[nb][x] is 0:
-        nb = rand.randrange(0,9)
+    while bmap[nb][x] == 1:
+        nb = rand.randrange(0,Set.Y_RANGE - 1)
     
     while ship_size < ss:
-        if direction == 0 and x + i_to_right <= 9: #Coming into bottom side
-            if bfc.check_row(bmap, nb, x + i_to_right) == True or bfc.check_neighbour(bmap,nb, x + i_to_right) == True:#???
+        if direction == 0 and x + i_to_right <= Set.X_RANGE - 1: #Coming into bottom side
+            if bfc.check_row(bmap, nb, x + i_to_right) == True or bfc.check_neighbour(bmap,nb, x + i_to_right) == True:
                 direction = 1
             else:
                 bmap[nb][x + i_to_right] = 3 
@@ -132,7 +155,7 @@ def put_row_ship(bmap, x, ss):
                     first_put = True
                     i_to_left = 1
         else:
-            if x + i_to_right == 10:
+            if x + i_to_right == Set.X_RANGE:
                 direction = 1
             
         if direction == 1 and x - i_to_left >= 0: #Coming into top side
@@ -155,14 +178,14 @@ def put_row_ship(bmap, x, ss):
             direction = 0
             first_put = False
             retrying = retrying + 1
-            nb = rand.randrange(0,9)
-            x = rand.randrange(0,9)
+            nb = rand.randrange(0,Set.Y_RANGE - 1)
+            x = rand.randrange(0,Set.X_RANGE - 1)
             while bmap[nb][x] is 0:
-                nb = rand.randrange(0,9)
-                x = rand.randrange(0,9)
+                nb = rand.randrange(0,Set.Y_RANGE - 1)
+                x = rand.randrange(0,Set.X_RANGE - 1)
         
-        if retrying == 100:
-            Bmap = np.zeros((10,10), dtype = np.int32) #Clear map and try again 
+        if retrying == 10000:
+            bmap = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32) #Clear map and try again 
             return bmap
                 
         if ship_size == ss and retry == False:
@@ -171,7 +194,6 @@ def put_row_ship(bmap, x, ss):
     return bmap
 
 def color_blocked_positions(bmap):
-    print(bmap)
     for i in range(len(bmap)):
         for j in range(len(bmap[i])):
             if bmap[i][j] != 1:

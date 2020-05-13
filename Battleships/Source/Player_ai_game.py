@@ -6,14 +6,16 @@ from Source import battleships_functions_bot as bfb
 from Source import battleships_functions_player as bfp
 
 def Play_Game(screen, bg):
+    screen, bg = UI.Update_Screen_Values(screen, bg)
+    
     #Resources (Images, Icons, Fonts)
     haha = pygame.image.load("Assets/Images/haha.jpg")
-    haha = pygame.transform.scale(haha, (339, 339))
+    haha = pygame.transform.scale(haha, (34*Set.X_RANGE, 34*Set.Y_RANGE))
     #font = pygame.font.Font("Resources/overpass-regular.otf", 12)
 
     #Initial Values
-    Ptab = np.zeros((10,10), dtype = np.int32)
-    Bmap = np.zeros((10,10), dtype = np.int32)
+    Ptab = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
+    Bmap = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
     Bmap = bfb.generate_bot_ships(Bmap)
     rects = UI.Rect_Player_AI()
     rect_map = UI.Rect_Player_AI_Map()
@@ -40,17 +42,17 @@ def Play_Game(screen, bg):
 
         if rect_map.collidepoint((mx,my)):
             if Set.CLICK:
-                if mx >= 55 and mx < 395 and my >= 111 and my < 451:
-                    Ptab = bfp.change_ship(Ptab,my - 111,mx - 55)
+                if mx >= 50 and mx < 50+34*Set.X_RANGE and my >= 100 and my < 100+34*Set.Y_RANGE:
+                    Ptab = bfp.change_ship(Ptab,my - 100,mx - 50)
 
         if rects[1].collidepoint((mx,my)):
             if Set.CLICK:
-                Bmap = np.zeros((10,10), dtype = np.int32)
+                Bmap = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
                 Bmap = bfb.generate_bot_ships(Bmap)
 
         #Check to draw haha
         if(Set.SHOW_HAHA == True):
-            screen.blit(haha,(416,111))
+            screen.blit(haha,((Set.X_RANGE * 34) + 100,100))
 
         #Events and update
         pygame.display.update()

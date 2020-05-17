@@ -60,3 +60,4 @@ def check_if_still_red(pmap, y, x):
     if temp == 4 and x >= 0 and y >= 0 and x < Set.X_RANGE and  y < Set.Y_RANGE:
         pmap[y][x] = 0
     return pmap
+

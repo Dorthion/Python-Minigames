@@ -104,3 +104,24 @@ def check_if_fit_in_row(bmap,x, ss):
         
         i = i + 1
     return False
+
+def check_ship_size(pmap):
+    lista=[]
+    for i in range(len(pmap)):
+        for j in range(len(pmap[i])):
+            if(pmap[i][j] == 1):
+                size, pmap = set_ship_size(pmap, i, j, 1)
+                lista.append(size)
+    lista.sort()
+    print(lista)
+
+def set_ship_size(pmap,y,x,size):
+    pmap[y][x] = 4
+    if check_neighbour(pmap, y, x) == True:
+        if x + 1 < Set.X_RANGE:
+            if pmap[y][x+1]==1:
+                size, pmap = set_ship_size(pmap,y,x+1,size + 1)
+        if y + 1 < Set.Y_RANGE:
+            if pmap[y+1][x]==1:
+                size, pmap = set_ship_size(pmap,y+1,x,size + 1)
+    return size, pmap

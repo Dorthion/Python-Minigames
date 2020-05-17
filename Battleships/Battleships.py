@@ -1,7 +1,8 @@
 import pygame
 from Source import Settings as Set
 from Source import UI_functions as UI
-from Source import Player_ai_game as aig
+from Source import Set_Player_ai_game as spa           #spa - set player ai
+from Source import Play_Player_ai_game as ppa          #ppa - play player ai
 
 #Init
 pygame.init()
@@ -31,7 +32,7 @@ while Set.RUNNING:
     if rects[0].collidepoint((mx,my)):
         if Set.CLICK:
             Set.CLICK = False
-            aig.Play_Game(screen, bg)
+            pmab, bmap = spa.Play_Game(screen, bg)
             Set.RUNNING = False
             break
     

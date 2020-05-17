@@ -5,9 +5,9 @@ HEIGHT = 600
 FPS = 144
 
 #Game Rules
-SHIP_SIZE = 16
-X_RANGE = 50
-Y_RANGE = 50
+SHIP_SIZE = 4
+X_RANGE = 10
+Y_RANGE = 10
 
 #Colors
 RED = (200, 0, 0)

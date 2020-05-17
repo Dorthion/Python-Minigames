@@ -49,6 +49,11 @@ def Play_Game(screen, bg):
             if Set.CLICK:
                 Bmap = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
                 Bmap = bfb.generate_bot_ships(Bmap)
+                
+        if rects[2].collidepoint((mx,my)):
+            if Set.CLICK:
+                return Ptab, Bmap
+
 
         #Check to draw haha
         if(Set.SHOW_HAHA == True):

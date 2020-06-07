@@ -53,9 +53,10 @@ def Play_Game(screen, bg):
                 
         if rects[2].collidepoint((mx,my)):
             if Set.CLICK:
-                   
+                Set.CLICK = False
                 bfc.check_ship_size(Ptab)
                 Ptab = np.where(Ptab == 4,1,Ptab)
+                return Ptab, Bmap
 
 
         #Check to draw haha
@@ -74,4 +75,4 @@ def Play_Game(screen, bg):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     Set.CLICK = True
-    pygame.quit()
+ #pygame.quit()

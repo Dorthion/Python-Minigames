@@ -2,7 +2,8 @@
 TITLE = "Battleships"
 WIDTH = 800
 HEIGHT = 600
-FPS = 144
+FPS = 60
+ALG = 1
 
 #Game Rules
 SHIP_SIZE = 4

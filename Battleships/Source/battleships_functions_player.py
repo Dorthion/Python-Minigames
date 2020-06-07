@@ -11,8 +11,6 @@ def change_ship(pmap, cly, clx):
         while cly - 34*yi > 0:
             yi = yi + 1
         yi = yi - 1
-    print("CLX:" + str(clx) + "CLY:" + str(cly))
-    print("X:" + str(xi) + "Y:" + str(yi))
     pmap = change_number(pmap, pmap[yi][xi], yi, xi)
     return pmap
 

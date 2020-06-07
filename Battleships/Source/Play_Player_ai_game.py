@@ -25,10 +25,11 @@ def Play_Game(screen, bg, Ptab, Bmap):
         UI.Draw_Player_AI2_Play(screen, Bmap)
         
         #Clickable buttons 
-        if rect_map.collidepoint((mx,my)):
-            if Set.CLICK:
-                if mx >= 50 and mx < 50+34*Set.X_RANGE and my >= 100 and my < 100+34*Set.Y_RANGE:
-                    Bmap = play.shot(Bmap,my - 100,mx - 50)
+        if rect_map.collidepoint((mx,my)) and Set.CLICK:
+            if mx >= 50 and mx < 50+34*Set.X_RANGE and my >= 100 and my < 100+34*Set.Y_RANGE:
+                Bmap, shooted = play.Player_shot(Bmap,my - 100,mx - 50)
+                if shooted:
+                    Ptab = play.AI_shot(Ptab)
 
 #        if rects[0].collidepoint((mx,my)):
 #            if Set.CLICK:

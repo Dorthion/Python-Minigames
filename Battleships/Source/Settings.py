@@ -20,3 +20,15 @@ RUNNING = True
 SHOW_HAHA = True
 CLICK = False
 CANT_GENERATE = False
+
+#Text
+PLAYER = "PLAYER"
+AI = "AI"
+AI1 = "AI 1"
+AI2 = "AI 2"
+
+#Points
+PLAYER_PTS = 0
+AI_PTS = 0
+AI1_PTS = 0
+AI2_PTS = 0

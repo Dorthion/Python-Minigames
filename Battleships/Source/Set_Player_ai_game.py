@@ -18,7 +18,7 @@ def Play_Game(screen, bg):
     Ptab = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
     Bmap = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
     Bmap = bfb.generate_bot_ships(Bmap)
-    rects = UI.Rect_Player_AI()
+    rects = UI.Rect_Player_AI_Set()
     rect_map = UI.Rect_Player_AI_Map()
 
     #InGame

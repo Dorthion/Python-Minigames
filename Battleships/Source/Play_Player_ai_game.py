@@ -6,12 +6,14 @@ from Source import battleships_functions_play as play
 
 def Play_Game(screen, bg, Ptab, Bmap):
     screen, bg = UI.Update_Screen_Values(screen, bg)
-    #font = pygame.font.Font("Resources/overpass-regular.otf", 12)
+    font = pygame.font.Font("Assets/Font/overpass-regular.otf", 40)
 
     #Initial Values
-    #rects = UI.Rect_Player_AI_Play()
     rect_map = UI.Rect_Player_AI_Map()
-
+    rects_play, text_pos = UI.Rect_Player_AI_Play()
+    texts = [font.render(Set.PLAYER, True, (255, 255, 255)), 
+             font.render(Set.AI, True, (255, 255, 255))]
+    
     #InGame
     while Set.RUNNING:
         #Screen properties per update
@@ -20,7 +22,8 @@ def Play_Game(screen, bg, Ptab, Bmap):
         screen.blit(bg,(0,0))
 
         #Draw functions 
-        #UI.Draw_Red_Btn_Play(screen, rects)
+        UI.Draw_Red_Btn(screen, rects_play)
+        UI.Draw_Text_Pos(screen, texts, text_pos)
         UI.Draw_Player_Map_Play(screen, Ptab)
         UI.Draw_Player_AI2_Play(screen, Bmap)
         
@@ -31,13 +34,14 @@ def Play_Game(screen, bg, Ptab, Bmap):
                 if shooted:
                     Ptab = play.AI_shot(Ptab)
 
-#        if rects[0].collidepoint((mx,my)):
-#            if Set.CLICK:
-#                Bmap = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
-#                Bmap = bfb.generate_bot_ships(Bmap)
+        if rects_play[0].collidepoint((mx,my)):
+            if Set.CLICK:
+                print("Surrendered")
+                return
 
         #Events and update
         pygame.display.update()
+        
 
         Set.CLICK = False
 
@@ -48,4 +52,3 @@ def Play_Game(screen, bg, Ptab, Bmap):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     Set.CLICK = True
-#    pygame.quit()

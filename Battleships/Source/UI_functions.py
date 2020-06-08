@@ -3,18 +3,20 @@ from Source.Settings import *
 
 #Rect buttons
 def Rect_Main_Menu():
-    return [pygame.Rect(280,100,100,80), #btn_play_player_ai
-            pygame.Rect(420,100,100,80), #btn_play_ai_ai
-            pygame.Rect(350,200,100,80), #btn_options
-            pygame.Rect(350,500,100,80)] #btn_quit
+    return [pygame.Rect(280,100,100,80),               #btn_play_player_ai
+            pygame.Rect(420,100,100,80),               #btn_play_ai_ai
+            pygame.Rect(350,200,100,80),               #btn_options
+            pygame.Rect(350,500,100,80)]               #btn_quit
 
-def Rect_Player_AI():
-    return [pygame.Rect(700,50,80,40), #btnhidebot
-            pygame.Rect(600,50,80,40), #btnrandbot
-            pygame.Rect((WIDTH/2) - 50,40,100,40)] #btnplay
+def Rect_Player_AI_Set():
+    return [pygame.Rect(700,50,80,40),                 #btnhidebot
+            pygame.Rect(600,50,80,40),                 #btnrandbot
+            pygame.Rect((WIDTH/2) - 50,40,100,40)]     #btnplay
 
-#def Rect_Player_AI_Play():
-#    return [pygame.Rect(700,50,80,40)] #btnsurrender
+def Rect_Player_AI_Play():
+    return [pygame.Rect(25,25,50,50),                  #btnsurrender
+           ],[(WIDTH/4 - 50, 30),                           #text_player
+           ((WIDTH/4) * 3,30)]                         #text_ai
 
 def Rect_Player_AI_Map():
     return pygame.Rect(50,100,34*X_RANGE,34*Y_RANGE) #btnplayer
@@ -23,6 +25,10 @@ def Rect_Player_AI_Map():
 def Draw_Red_Btn(screen, rects):
     for i in rects:
         pygame.draw.rect(screen, RED, i)
+        
+def Draw_Text_Pos(screen, texts, text_pos):
+    for i in range(len(texts)):
+        screen.blit(texts[i],(text_pos[i][0],text_pos[i][1]))
 
 def Draw_Player_Map(screen, Ptab):
     for y in range(Y_RANGE):

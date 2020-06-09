@@ -1,30 +1,34 @@
 import pygame
 import numpy as np
-from Source import Settings as Set
+#from Source import Settings as Set
 from Source import UI_functions as UI
 from Source import battleships_functions_bot as bfb
 from Source import battleships_functions_player as bfp
 from Source import battleships_functions_check as bfc
 
-def Play_Game(screen, bg):
+def Play_Game(screen, bg, cfg):
     screen, bg = UI.Update_Screen_Values(screen, bg)
     
     #Resources (Images, Icons, Fonts)
     haha = pygame.image.load("Assets/Images/haha.jpg")
-    haha = pygame.transform.scale(haha, (34*Set.X_RANGE, 34*Set.Y_RANGE))
+    haha = pygame.transform.scale(haha, (34*cfg["Rules"].getint("X_RANGE"), 34*cfg["Rules"].getint("Y_RANGE")))
     #font = pygame.font.Font("Resources/overpass-regular.otf", 12)
 
     #Initial Values
-    Ptab = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
-    Bmap = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
-    Bmap = bfb.generate_bot_ships(Bmap)
+    RUNNING = True
+    SHOW_HAHA = True
+    CANT_GENERATE = False
+    CLICK = False
+    Ptab = np.zeros((cfg["Rules"].getint("Y_RANGE"),cfg["Rules"].getint("X_RANGE")), dtype = np.int32)
+    Bmap = np.zeros((cfg["Rules"].getint("Y_RANGE"),cfg["Rules"].getint("X_RANGE")), dtype = np.int32)
+    Bmap, CANT_GENERATE = bfb.generate_bot_ships(Bmap)
     rects = UI.Rect_Player_AI_Set()
     rect_map = UI.Rect_Player_AI_Map()
 
     #InGame
-    while Set.RUNNING:
+    while RUNNING:
         #Screen properties per update
-        dt = pygame.time.Clock().tick(Set.FPS) / 1000.0    #DeltaTime
+        dt = pygame.time.Clock().tick(cfg["Basic"].getint("FPS")) / 1000.0    #DeltaTime
         mx, my = pygame.mouse.get_pos()
         screen.blit(bg,(0,0))
 
@@ -34,45 +38,39 @@ def Play_Game(screen, bg):
         UI.Draw_Player_AI2(screen, Bmap)
         
         #Clickable buttons 
-        if rects[0].collidepoint((mx,my)):
-            if Set.CLICK:
-                if Set.SHOW_HAHA:
-                    Set.SHOW_HAHA = False
-                else:
-                    Set.SHOW_HAHA = True
+        if rects[0].collidepoint((mx,my)) and CLICK:
+            if SHOW_HAHA:
+                SHOW_HAHA = False
+            else:
+                SHOW_HAHA = True
 
-        if rect_map.collidepoint((mx,my)):
-            if Set.CLICK:
-                if mx >= 50 and mx < 50+34*Set.X_RANGE and my >= 100 and my < 100+34*Set.Y_RANGE:
-                    Ptab = bfp.change_ship(Ptab,my - 100,mx - 50)
+        if rect_map.collidepoint((mx,my)) and CLICK:
+            if mx >= 50 and mx < 50+34*cfg["Rules"].getint("X_RANGE") and my >= 100 and my < 100+34*cfg["Rules"].getint("Y_RANGE"):
+                Ptab = bfp.change_ship(Ptab,my - 100,mx - 50)
 
-        if rects[1].collidepoint((mx,my)):
-            if Set.CLICK:
-                Bmap = np.zeros((Set.Y_RANGE,Set.X_RANGE), dtype = np.int32)
-                Bmap = bfb.generate_bot_ships(Bmap)
+        if rects[1].collidepoint((mx,my)) and CLICK:
+            Bmap = np.zeros((cfg["Rules"].getint("Y_RANGE"),cfg["Rules"].getint("X_RANGE")), dtype = np.int32)
+            Bmap, CANT_GENERATE = bfb.generate_bot_ships(Bmap)
                 
-        if rects[2].collidepoint((mx,my)):
-            if Set.CLICK:
-                Set.CLICK = False
-                bfc.check_ship_size(Ptab)
-                Ptab = np.where(Ptab == 4,1,Ptab)
-                return Ptab, Bmap
-
+        if rects[2].collidepoint((mx,my)) and CLICK:
+            bfc.check_ship_size(Ptab)
+            Ptab = np.where(Ptab == 4,1,Ptab)
+            return Ptab, Bmap
 
         #Check to draw haha
-        if(Set.SHOW_HAHA == True):
-            screen.blit(haha,((Set.X_RANGE * 34) + 100,100))
+        if(SHOW_HAHA == True):
+            screen.blit(haha,((cfg["Rules"].getint("X_RANGE") * 34) + 100,100))
 
         #Events and update
         pygame.display.update()
 
-        Set.CLICK = False
+        CLICK = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                Set.RUNNING = False
+                RUNNING = False
                 pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    Set.CLICK = True
+                    CLICK = True
  #pygame.quit()

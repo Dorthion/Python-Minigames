@@ -1,13 +1,23 @@
 import pygame
-from Source import Settings as Set
+from configparser import ConfigParser
 from Source import UI_functions as UI
 from Source import Set_Player_ai_game as spa           #spa - set player ai
 from Source import Play_Player_ai_game as ppa          #ppa - play player ai
+import os.path
+import sys
+
 
 #Init
+if os.path.isfile("./cfg.ini") == False:
+    exec(open("./Source/Config.py").read())
+    python = sys.executable
+    os.execl(python, python,*sys.argv)
+
+cfg = ConfigParser()
+cfg.read("./cfg.ini")
 pygame.init()
-screen = pygame.display.set_mode((Set.WIDTH,Set.HEIGHT))
-pygame.display.set_caption(Set.TITLE)
+screen = pygame.display.set_mode((cfg["Basic"].getint("WIDTH"),cfg["Basic"].getint("HEIGHT")))
+pygame.display.set_caption(cfg["Basic"]["TITLE"])
 
 #Resources (Images, Icons, Fonts)
 icon = pygame.image.load("Assets/Images/ship.png")
@@ -18,12 +28,14 @@ pygame.display.set_icon(icon)
 #Initial values
 screen.blit(bg,(0,0))
 rects = UI.Rect_Main_Menu()
+CLICK = False
+RUNNING = True
 
 #InGame
 #try:
-while Set.RUNNING:
+while RUNNING:
     #Screen properties per update
-    dt = pygame.time.Clock().tick(Set.FPS) / 1000.0    #DeltaTime
+    dt = pygame.time.Clock().tick(cfg["Basic"].getint("FPS")) / 1000.0    #DeltaTime
     mx, my = pygame.mouse.get_pos()
     screen.blit(bg,(0,0))
 
@@ -31,36 +43,35 @@ while Set.RUNNING:
     UI.Draw_Red_Btn(screen, rects)   
 
     if rects[0].collidepoint((mx,my)):
-        if Set.CLICK:
-            Set.CLICK = False
-            Temp_width = Set.WIDTH
-            Temp_height = Set.HEIGHT
+        if CLICK:
+            Temp_width = cfg["Basic"].getint("WIDTH")
+            Temp_height = cfg["Basic"].getint("HEIGHT")
             print("Set")
-            pmab, bmap = spa.Play_Game(screen, bg)
+            pmab, bmap = spa.Play_Game(screen, bg, cfg)
             print("Play")
-            ppa.Play_Game(screen, bg,pmab, bmap)
+            ppa.Play_Game(screen, bg,pmab, bmap, cfg)
             print("End")
-            Set.WIDTH = Temp_width
-            Set.HEIGHT = Temp_height
-            screen = pygame.display.set_mode((Set.WIDTH,Set.HEIGHT))
+            cfg.set("Basic","WIDTH",str(Temp_width))
+            cfg.set("Basic","HEIGHT",str(Temp_height))
+            screen = pygame.display.set_mode((Temp_width,Temp_height))
 
     #Events and update
     if rects[3].collidepoint((mx,my)):
-        if Set.CLICK:
-            Set.RUNNING = False
+        if CLICK:
+            RUNNING = False
             break
 
     pygame.display.update()
-    Set.CLICK = False
+    CLICK = False
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            Set.RUNNING = False
+            RUNNING = False
             break
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                Set.CLICK = True
+                CLICK = True
 pygame.quit()
 #except:
 #    pygame.quit()

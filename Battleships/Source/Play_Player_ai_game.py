@@ -1,23 +1,30 @@
 import pygame
 import numpy as np
-from Source import Settings as Set
+#from Source import Settings as Set
 from Source import UI_functions as UI
 from Source import battleships_functions_play as play
+#from configparser import ConfigParser
 
-def Play_Game(screen, bg, Ptab, Bmap):
-    screen, bg = UI.Update_Screen_Values(screen, bg)
+#cfg = ConfigParser()
+#cfg.read("./cfg.ini") #Maybe ../
+
+def Play_Game(screen, bg, Ptab, Bmap, cfg):
     font = pygame.font.Font("Assets/Font/overpass-regular.otf", 40)
 
     #Initial Values
+    CLICK = False
+    RUNNING = True
     rect_map = UI.Rect_Player_AI_Map()
     rects_play, text_pos = UI.Rect_Player_AI_Play()
-    texts = [font.render(Set.PLAYER, True, (255, 255, 255)), 
-             font.render(Set.AI, True, (255, 255, 255))]
+    texts = [font.render(cfg["Text"]["PLAYER"], True, (255, 255, 255)), 
+             font.render(cfg["Text"]["AI"], True, (255, 255, 255)),
+             font.render(cfg["Text"]["SCORE"], True, (255, 255, 255)),
+             font.render(str(cfg["Points"].getint("PLAYER_PTS")) + " - " + str(cfg["Points"].getint("AI_PTS")), True, (255, 255, 255))]
     
     #InGame
-    while Set.RUNNING:
+    while RUNNING:
         #Screen properties per update
-        dt = pygame.time.Clock().tick(Set.FPS) / 1000.0    #DeltaTime
+        dt = pygame.time.Clock().tick(cfg["Basic"].getint("FPS")) / 1000.0    #DeltaTime
         mx, my = pygame.mouse.get_pos()
         screen.blit(bg,(0,0))
 
@@ -28,27 +35,26 @@ def Play_Game(screen, bg, Ptab, Bmap):
         UI.Draw_Player_AI2_Play(screen, Bmap)
         
         #Clickable buttons 
-        if rect_map.collidepoint((mx,my)) and Set.CLICK:
-            if mx >= 50 and mx < 50+34*Set.X_RANGE and my >= 100 and my < 100+34*Set.Y_RANGE:
+        if rect_map.collidepoint((mx,my)) and CLICK:
+            if mx >= 50 and mx < 50+34*cfg["Rules"].getint("X_RANGE") and my >= 100 and my < 100+34*cfg["Rules"].getint("Y_RANGE"):
                 Bmap, shooted = play.Player_shot(Bmap,my - 100,mx - 50)
                 if shooted:
                     Ptab = play.AI_shot(Ptab)
 
         if rects_play[0].collidepoint((mx,my)):
-            if Set.CLICK:
+            if CLICK:
                 print("Surrendered")
                 return
 
         #Events and update
         pygame.display.update()
-        
 
-        Set.CLICK = False
+        CLICK = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                Set.RUNNING = False
+                RUNNING = False
                 pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    Set.CLICK = True
+                    CLICK = True

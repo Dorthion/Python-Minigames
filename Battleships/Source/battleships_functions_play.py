@@ -1,5 +1,8 @@
-from Source.Settings import *
 import random as rand
+from configparser import ConfigParser
+
+cfg = ConfigParser()
+cfg.read("./cfg.ini") #Maybe ../
 
 def shot(Map1,y,x):
     if Map1[y][x] == 3 or Map1[y][x] == 4:
@@ -29,12 +32,12 @@ def AI_shot(Map1):
     x = -1
     y = -1
     i = 0
-    if ALG == 1:
-        x = rand.randrange(X_RANGE)
-        y = rand.randrange(Y_RANGE)
-        while (Map1[y][x] == 3 or Map1[y][x] == 4) and i < X_RANGE*Y_RANGE + 1:
-            x = rand.randrange(X_RANGE)
-            y = rand.randrange(Y_RANGE)
+    if cfg["Basic"].getint("ALG") == 1:
+        x = rand.randrange(cfg["Rules"].getint("X_RANGE"))
+        y = rand.randrange(cfg["Rules"].getint("Y_RANGE"))
+        while (Map1[y][x] == 3 or Map1[y][x] == 4) and i < cfg["Rules"].getint("X_RANGE")*cfg["Rules"].getint("Y_RANGE") + 1:
+            x = rand.randrange(cfg["Rules"].getint("X_RANGE"))
+            y = rand.randrange(cfg["Rules"].getint("Y_RANGE"))
             i = i+1
         Map1,temp = shot(Map1,y,x)
         return Map1

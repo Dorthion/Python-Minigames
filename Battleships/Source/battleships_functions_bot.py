@@ -81,7 +81,7 @@ def put_column_ship(bmap, y, ss):
     nb = rand.randrange(0,cfg["Rules"].getint("X_RANGE"))
     
     while bmap[y][nb] == 1:
-        nb = rand.randrange(0,Scfg["Rules"].getint("X_RANGE"))
+        nb = rand.randrange(0,cfg["Rules"].getint("X_RANGE"))
     
     while ship_size < ss:
         if direction == 0 and y + i_to_bottom < cfg["Rules"].getint("Y_RANGE"): #Coming into bottom side

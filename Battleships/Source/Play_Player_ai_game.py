@@ -52,3 +52,4 @@ def Play_Game(screen, bg, Ptab, Bmap, cfg):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     CLICK = True
+    return cfg, False

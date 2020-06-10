@@ -11,26 +11,40 @@ BLUE = (0, 0, 200)
 
 #Rect buttons
 def Rect_Main_Menu():
-    return [pygame.Rect(280,100,100,80),               #btn_play_player_ai
-            pygame.Rect(420,100,100,80),               #btn_play_ai_ai
-            pygame.Rect(350,200,100,80),               #btn_options
-            pygame.Rect(350,500,100,80)]               #btn_quit
+    return [pygame.Rect(280,100,100,80),                                                             #btn_play_player_ai
+            pygame.Rect(420,100,100,80),                                                             #btn_play_ai_ai
+            pygame.Rect(350,200,100,80),                                                             #btn_options
+            pygame.Rect(350,500,100,80)]                                                             #btn_quit
 
 def Rect_Player_AI_Set():
-    return [pygame.Rect(700,50,80,40),                                                 #btnhidebot
-            pygame.Rect(600,50,80,40),                                                 #btnrandbot
-            pygame.Rect((cfg["Basic"].getint("WIDTH")/2) - 50,40,100,40)]              #btnplay
+    return [pygame.Rect(700,50,80,40),                                                               #btnhidebot
+            pygame.Rect(600,50,80,40),                                                               #btnrandbot
+            pygame.Rect((cfg["Basic"].getint("WIDTH")/2) - 50,40,100,40)]                            #btnplay
 
 def Rect_Player_AI_Play():
-    return [pygame.Rect(25,25,50,50),                                                  #btnsurrender
-           ],[(cfg["Basic"].getint("WIDTH")/4 - 50, 30),                               #text_player
-           ((cfg["Basic"].getint("WIDTH")/4) * 3, 30),                                 #text_ai
-           ((cfg["Basic"].getint("WIDTH")/2)-70, cfg["Basic"].getint("HEIGHT") - 60),  #text_score
-           ((cfg["Basic"].getint("WIDTH")/2)-60, cfg["Basic"].getint("HEIGHT") - 50)]  #text_actual_score         
+    return [pygame.Rect(25,25,50,50),                                                                #btnsurrender
+           ],[(cfg["Basic"].getint("WIDTH")/4 - 50, 30),                                             #text_player
+           ((cfg["Basic"].getint("WIDTH")/4) * 3, 30),                                               #text_ai
+           ((cfg["Basic"].getint("WIDTH")/2)-65, cfg["Basic"].getint("HEIGHT") - 60),                #text_score
+           ((cfg["Basic"].getint("WIDTH")/2)-20, cfg["Basic"].getint("HEIGHT") - 20)]                #text_actual_score         
 
 def Rect_Player_AI_Map():
     return pygame.Rect(50,100,34*cfg["Rules"].getint("X_RANGE"),34*cfg["Rules"].getint("Y_RANGE"))   #btnplayer
 
+def Rect_Options():
+    return [pygame.Rect(240,25,30,30),
+            pygame.Rect(305,25,30,30),
+            pygame.Rect(240,85,30,30),
+            pygame.Rect(305,85,30,30),
+            pygame.Rect(240,145,30,30),
+            pygame.Rect(305,145,30,30),
+            pygame.Rect(230,380,100,40),
+            pygame.Rect(20,380,100,40)
+           ],[(50,20),
+            (50,80),
+            (30,140),
+            (50,200),
+            (150,250)]
 #Draw functions
 def Draw_Red_Btn(screen, rects):
     for i in rects:

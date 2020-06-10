@@ -1,12 +1,7 @@
 import pygame
 import numpy as np
-#from Source import Settings as Set
 from Source import UI_functions as UI
 from Source import battleships_functions_play as play
-#from configparser import ConfigParser
-
-#cfg = ConfigParser()
-#cfg.read("./cfg.ini") #Maybe ../
 
 def Play_Game(screen, bg, Ptab, Bmap, cfg):
     font = pygame.font.Font("Assets/Font/overpass-regular.otf", 40)
@@ -41,10 +36,9 @@ def Play_Game(screen, bg, Ptab, Bmap, cfg):
                 if shooted:
                     Ptab = play.AI_shot(Ptab)
 
-        if rects_play[0].collidepoint((mx,my)):
-            if CLICK:
-                print("Surrendered")
-                return
+        if rects_play[0].collidepoint((mx,my)) and CLICK:
+            print("Surrendered")
+            return
 
         #Events and update
         pygame.display.update()

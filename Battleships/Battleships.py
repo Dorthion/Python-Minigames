@@ -3,9 +3,9 @@ from configparser import ConfigParser
 from Source import UI_functions as UI
 from Source import Set_Player_ai_game as spa           #spa - set player ai
 from Source import Play_Player_ai_game as ppa          #ppa - play player ai
+from Source import Options_game as opt
 import os.path
 import sys
-
 
 #Init
 if os.path.isfile("./cfg.ini") == False:
@@ -42,24 +42,30 @@ while RUNNING:
     #Draw
     UI.Draw_Red_Btn(screen, rects)   
 
-    if rects[0].collidepoint((mx,my)):
-        if CLICK:
-            Temp_width = cfg["Basic"].getint("WIDTH")
-            Temp_height = cfg["Basic"].getint("HEIGHT")
-            print("Set")
-            pmab, bmap = spa.Play_Game(screen, bg, cfg)
-            print("Play")
-            ppa.Play_Game(screen, bg,pmab, bmap, cfg)
-            print("End")
-            cfg.set("Basic","WIDTH",str(Temp_width))
-            cfg.set("Basic","HEIGHT",str(Temp_height))
-            screen = pygame.display.set_mode((Temp_width,Temp_height))
-
+    if rects[0].collidepoint((mx,my)) and CLICK:   #Play_Player_vs_AI
+        Temp_width = cfg["Basic"].getint("WIDTH")
+        Temp_height = cfg["Basic"].getint("HEIGHT")
+        print("Set")
+        pmab, bmap = spa.Play_Game(screen, bg, cfg)
+        print("Play")
+        ppa.Play_Game(screen, bg,pmab, bmap, cfg)
+        print("End")
+        screen = pygame.display.set_mode((Temp_width,Temp_height))
+            
+    if rects[2].collidepoint((mx,my)) and CLICK:   #Options
+        Temp_width = cfg["Basic"].getint("WIDTH")
+        Temp_height = cfg["Basic"].getint("HEIGHT")
+        cfg, changed_game_opt = opt.run(screen, bg, cfg)
+        screen = pygame.display.set_mode((Temp_width,Temp_height))
+        if changed_game_opt:
+            opt.save_new_conf(cfg)
+            python = sys.executable
+            os.execl(python, python,*sys.argv)
+            
     #Events and update
-    if rects[3].collidepoint((mx,my)):
-        if CLICK:
-            RUNNING = False
-            break
+    if rects[3].collidepoint((mx,my)) and CLICK:   #Exit_Game
+        RUNNING = False
+        break
 
     pygame.display.update()
     CLICK = False

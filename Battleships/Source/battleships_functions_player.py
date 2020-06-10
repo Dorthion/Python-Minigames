@@ -1,4 +1,8 @@
-from Source import Settings as Set
+#from Source import Settings as Set
+from configparser import ConfigParser
+
+cfg = ConfigParser()
+cfg.read("./cfg.ini") #Maybe ../
 #Functions
 def change_ship(pmap, cly, clx):
     xi = 0
@@ -11,8 +15,6 @@ def change_ship(pmap, cly, clx):
         while cly - 34*yi > 0:
             yi = yi + 1
         yi = yi - 1
-    print("CLX:" + str(clx) + "CLY:" + str(cly))
-    print("X:" + str(xi) + "Y:" + str(yi))
     pmap = change_number(pmap, pmap[yi][xi], yi, xi)
     return pmap
 
@@ -21,11 +23,11 @@ def change_number(pmap, number, y, x):
         pmap[y][x] = 1
         if y - 1 >= 0 and x - 1 >= 0:
             pmap[y - 1][x - 1] = 2
-        if y + 1 < Set.Y_RANGE and x - 1 >= 0:
+        if y + 1 < cfg["Rules"].getint("Y_RANGE") and x - 1 >= 0:
             pmap[y + 1][x - 1] = 2
-        if y - 1 >= 0 and x + 1 < Set.X_RANGE:
+        if y - 1 >= 0 and x + 1 < cfg["Rules"].getint("X_RANGE"):
             pmap[y - 1][x + 1] = 2
-        if y + 1 < Set.Y_RANGE and x + 1  < Set.X_RANGE:
+        if y + 1 < cfg["Rules"].getint("Y_RANGE") and x + 1  < cfg["Rules"].getint("X_RANGE"):
             pmap[y + 1][x + 1] = 2
         return pmap
 
@@ -48,15 +50,16 @@ def check_if_still_red(pmap, y, x):
     if y - 1 >= 0 and x - 1 >= 0:
         if pmap[y - 1][x - 1] == 1:
             temp = temp - 1
-    if y + 1 < Set.Y_RANGE and x - 1 >= 0:
+    if y + 1 < cfg["Rules"].getint("Y_RANGE") and x - 1 >= 0:
         if pmap[y + 1][x - 1] == 1:
             temp = temp - 1
-    if y - 1 >= 0 and x + 1 < Set.X_RANGE:
+    if y - 1 >= 0 and x + 1 < cfg["Rules"].getint("X_RANGE"):
         if pmap[y - 1][x + 1] == 1:
             temp = temp - 1
-    if y + 1 < Set.Y_RANGE and x + 1 < Set.X_RANGE:
+    if y + 1 < cfg["Rules"].getint("Y_RANGE") and x + 1 < cfg["Rules"].getint("X_RANGE"):
         if pmap[y + 1][x + 1] == 1:
             temp = temp - 1
-    if temp == 4 and x >= 0 and y >= 0 and x < Set.X_RANGE and  y < Set.Y_RANGE:
+    if temp == 4 and x >= 0 and y >= 0 and x < cfg["Rules"].getint("X_RANGE") and  y < cfg["Rules"].getint("Y_RANGE"):
         pmap[y][x] = 0
     return pmap
+

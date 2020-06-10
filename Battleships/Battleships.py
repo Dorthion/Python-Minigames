@@ -55,12 +55,17 @@ while RUNNING:
     if rects[2].collidepoint((mx,my)) and CLICK:   #Options
         Temp_width = cfg["Basic"].getint("WIDTH")
         Temp_height = cfg["Basic"].getint("HEIGHT")
-        cfg, changed_game_opt = opt.run(screen, bg, cfg)
+        config, changed_game_opt = opt.run(screen, bg, cfg)
         screen = pygame.display.set_mode((Temp_width,Temp_height))
         if changed_game_opt:
-            opt.save_new_conf(cfg)
-            python = sys.executable
-            os.execl(python, python,*sys.argv)
+            print("Save new config file")
+            opt.save_new_conf(config)
+            os.execl(sys.executable, sys.executable, *sys.argv)
+            
+        else:
+            pygame.display.quit()
+            os.execl(sys.executable, sys.executable, *sys.argv)
+            
             
     #Events and update
     if rects[3].collidepoint((mx,my)) and CLICK:   #Exit_Game
@@ -78,6 +83,8 @@ while RUNNING:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 CLICK = True
+pygame.display.quit()
 pygame.quit()
+sys.exit()
 #except:
 #    pygame.quit()

@@ -42,8 +42,8 @@ def Rect_Options():
             pygame.Rect(355,205,30,30),  #FPS_BOX_+
             pygame.Rect(290,265,30,30),  #SHIP_SIZE_BOX_-
             pygame.Rect(355,265,30,30),  #SHIP_SIZE_BOX_+
-            pygame.Rect(280,380,100,40), #EXIT_WITHOUT_SAVE_BOX
-            pygame.Rect(20,380,100,40),   #EXIT_AND_SAVE_BOX
+            pygame.Rect(280,380,100,40), #EXIT_AND_SAVE_BOX
+            pygame.Rect(20,380,100,40),  #EXIT_WITHOUT_SAVE_BOX
             pygame.Rect(165,340,75,24)   #TRY_IT_BOX
            ],[(50,20),                   #X_RANGE_TEXT
             (50,80),                     #Y_RANGE_TEXT

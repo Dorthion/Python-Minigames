@@ -29,7 +29,7 @@ def check_row(bmap,y,x):
         if bmap[y][x - 1] == 1:
             return True
                 
-    if x + 1 <= cfg["Rules"].getint("Y_RANGE") - 1:                 #Right Side
+    if x + 1 <= cfg["Rules"].getint("X_RANGE") - 1:                 #Right Side
         if bmap[y][x + 1] == 1:
             return True
     

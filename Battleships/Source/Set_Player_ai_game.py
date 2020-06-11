@@ -1,6 +1,5 @@
 import pygame
 import numpy as np
-#from Source import Settings as Set
 from Source import UI_functions as UI
 from Source import battleships_functions_bot as bfb
 from Source import battleships_functions_player as bfp

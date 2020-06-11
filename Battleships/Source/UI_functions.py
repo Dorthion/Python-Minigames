@@ -25,9 +25,15 @@ def Rect_Player_AI_Play():
     return [pygame.Rect(25,25,50,50),                                                                #btnsurrender
            ],[(cfg["Basic"].getint("WIDTH")/4 - 50, 30),                                             #text_player
            ((cfg["Basic"].getint("WIDTH")/4) * 3, 30),                                               #text_ai
-           ((cfg["Basic"].getint("WIDTH")/2)-65, cfg["Basic"].getint("HEIGHT") - 100),                #text_score
-           ((cfg["Basic"].getint("WIDTH")/2)-40, cfg["Basic"].getint("HEIGHT") - 65)]                #text_actual_score         
+           ((cfg["Basic"].getint("WIDTH")/2)-65, cfg["Basic"].getint("HEIGHT") - 100),               #text_score
+           ((cfg["Basic"].getint("WIDTH")/2)-40, cfg["Basic"].getint("HEIGHT") - 65)]                #text_actual_score
 
+def Rect_AI_AI_Set():
+    return [pygame.Rect((cfg["Basic"].getint("WIDTH")/2) - 50,40,100,40),                            #Run_game
+            pygame.Rect(25,25,50,50),                                                                #Exit_btn
+            pygame.Rect((cfg["Basic"].getint("WIDTH")/2) - 100,40,40,40),                            #Ai1_gen
+            pygame.Rect((cfg["Basic"].getint("WIDTH")/2) + 60,40,40,40)]                             #Ai2_gen
+             
 def Rect_Player_AI_Map():
     return pygame.Rect(50,100,34*cfg["Rules"].getint("X_RANGE"),34*cfg["Rules"].getint("Y_RANGE"))   #btnplayer
 

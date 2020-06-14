@@ -35,7 +35,7 @@ def AI_shot(Map1):
     if cfg["Basic"].getint("ALG") == 1:
         x = rand.randrange(cfg["Rules"].getint("X_RANGE"))
         y = rand.randrange(cfg["Rules"].getint("Y_RANGE"))
-        while (Map1[y][x] == 3 or Map1[y][x] == 4) and i < cfg["Rules"].getint("X_RANGE")*cfg["Rules"].getint("Y_RANGE") + 1:
+        while (Map1[y][x] == 3 or Map1[y][x] == 4) and i < cfg["Rules"].getint("X_RANGE")*cfg["Rules"].getint("Y_RANGE"):
             x = rand.randrange(cfg["Rules"].getint("X_RANGE"))
             y = rand.randrange(cfg["Rules"].getint("Y_RANGE"))
             i = i+1

@@ -1,8 +1,6 @@
-#from Source import Settings as Set
-from configparser import ConfigParser
-
-cfg = ConfigParser()
-cfg.read("./cfg.ini") #Maybe ../
+def load_config_file(config):    
+    global cfg
+    cfg = config
 
 def check_column(bmap,y,x):
     if bmap[y][x] == 1:            #Center
@@ -29,7 +27,7 @@ def check_row(bmap,y,x):
         if bmap[y][x - 1] == 1:
             return True
                 
-    if x + 1 <= cfg["Rules"].getint("X_RANGE") - 1:                 #Right Side
+    if x + 1 < cfg["Rules"].getint("X_RANGE") - 1:                 #Right Side
         if bmap[y][x + 1] == 1:
             return True
     
@@ -77,7 +75,7 @@ def check_if_fit_in_column(bmap, y, ss):
     i = 0
     is_good = 0
     failed = False
-    while i < cfg["Rules"].getint("Y_RANGE"):
+    while i < cfg["Rules"].getint("X_RANGE"):
         failed = check_column(bmap,y,i)
         if failed == False:
             is_good = is_good + 1
@@ -94,8 +92,8 @@ def check_if_fit_in_row(bmap,x, ss):
     i = 0
     is_good = 0
     failed = False
-    while i < cfg["Rules"].getint("X_RANGE") - 1:
-        failed = check_row(bmap,x,i)
+    while i < cfg["Rules"].getint("Y_RANGE"):
+        failed = check_row(bmap,i,x)
                 
         if failed == False:
             is_good = is_good + 1

@@ -1,8 +1,8 @@
 import pygame
-from configparser import ConfigParser
 
-cfg = ConfigParser()
-cfg.read("./cfg.ini")
+def load_config_file(config):
+    global cfg
+    cfg = config
 
 #Colors
 RED = (200, 0, 0)

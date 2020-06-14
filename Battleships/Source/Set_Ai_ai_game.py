@@ -16,12 +16,14 @@ def Play_Game(screen, bg, cfg):
     CANT_GENERATE1 = False
     CANT_GENERATE2 = False
     CLICK = False
+    bfb.load_config_file(cfg)
     Bmap1 = np.zeros((cfg["Rules"].getint("Y_RANGE"),cfg["Rules"].getint("X_RANGE")), dtype = np.int32)
     Bmap2 = np.zeros((cfg["Rules"].getint("Y_RANGE"),cfg["Rules"].getint("X_RANGE")), dtype = np.int32)
     Bmap1, CANT_GENERATE1 = bfb.generate_bot_ships(Bmap1)
     Bmap2, CANT_GENERATE2 = bfb.generate_bot_ships(Bmap2)
     rects = UI.Rect_AI_AI_Set()
     rect_map = UI.Rect_Player_AI_Map()
+
 
     #InGame
     while RUNNING:
@@ -36,11 +38,15 @@ def Play_Game(screen, bg, cfg):
         UI.Draw_Player_AI2(screen, Bmap2)
         
         #Clickable buttons
+        if CLICK:
+            if rects[0].collidepoint((mx,my)):
+                print("Play game")
+                return Bmap1, Bmap2, True
         
         if CLICK:
             if rects[1].collidepoint((mx,my)):
                 print("Back to menu")
-                return None, None
+                return None, None, False
             
             if rects[2].collidepoint((mx,my)):
                 Bmap1 = np.zeros((cfg["Rules"].getint("Y_RANGE"),cfg["Rules"].getint("X_RANGE")), dtype = np.int32)

@@ -1,11 +1,11 @@
 import random as rand
 import numpy as np
 from Source import battleships_functions_check as bfc
-from configparser import ConfigParser
 
-cfg = ConfigParser()
-cfg.read("./cfg.ini") #Maybe ../
-#from Source import Settings as Set
+def load_config_file(config):    
+    global cfg
+    cfg = config
+    bfc.load_config_file(config)
 
 def generate_bot_ships(bmap):
     count = 1

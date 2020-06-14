@@ -1,0 +1,64 @@
+import pygame
+import numpy as np
+from Source import UI_functions as UI
+from Source import battleships_functions_play as play
+
+def Play_Game(screen, bg, Bmap1, Bmap2, cfg):
+    font = pygame.font.Font("Assets/Font/overpass-regular.otf", 40)
+
+    #Initial Values
+    CLICK = False
+    RUNNING = True
+    rect_map = UI.Rect_Player_AI_Map()
+    rects_play, text_pos = UI.Rect_Player_AI_Play()
+    texts = [font.render(cfg["Text"]["AI1"], True, (255, 255, 255)), 
+             font.render(cfg["Text"]["AI2"], True, (255, 255, 255)),
+             font.render(cfg["Text"]["SCORE"], True, (255, 255, 255)),
+             font.render(str(cfg["Points"].getint("AI1_PTS")) + " - " + str(cfg["Points"].getint("AI2_PTS")), True, (255, 255, 255))]
+    
+    ai1_win_con = False
+    ai2_win_con = False
+    shoot = True
+    #InGame
+    while RUNNING:
+        #Screen properties per update
+        dt = pygame.time.Clock().tick(cfg["Basic"].getint("FPS")) / 1000.0    #DeltaTime
+        mx, my = pygame.mouse.get_pos()
+        screen.blit(bg,(0,0))
+
+        #Draw functions 
+        UI.Draw_Red_Btn(screen, rects_play)
+        UI.Draw_Text_Pos(screen, texts, text_pos)
+        UI.Draw_Player_Map_Play(screen, Bmap1)
+        UI.Draw_Player_AI2_Play(screen, Bmap2)
+        
+        #Clickable buttons 
+        if rects_play[0].collidepoint((mx,my)) and CLICK:
+            print("End of simulation")
+            return True
+        
+        if shoot:
+                Bmap1 = play.AI_shot(Bmap1)
+                if (1 in Bmap1) == False:
+                    ai1_win_con = True
+                    shoot = False
+                
+        if shoot:
+                Bmap2 = play.AI_shot(Bmap2)
+                if (1 in Bmap2) == False:
+                    ai2_win_con = True
+                    shoot = False
+                    
+        #Events and update
+        pygame.display.update()
+
+        CLICK = False
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                RUNNING = False
+                pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    CLICK = True
+    return cfg, False

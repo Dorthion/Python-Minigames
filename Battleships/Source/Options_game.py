@@ -166,3 +166,4 @@ def save_new_conf(cfg):
 
     with open('./cfg.ini', 'w') as f:
         config.write(f)
+    return config

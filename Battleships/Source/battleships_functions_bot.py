@@ -66,7 +66,6 @@ def put_ship_on_map(bmap, ss, c):
                     bmap = np.zeros((cfg["Rules"].getint("Y_RANGE"),cfg["Rules"].getint("X_RANGE")), dtype = np.int32)
                     return bmap
             
-        #print(bmap)
     return bmap
 
 def put_column_ship(bmap, y, ss):

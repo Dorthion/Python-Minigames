@@ -19,6 +19,8 @@ def Play_Game(screen, bg, cfg):
     CANT_GENERATE = False
     CLICK = False
     bfb.load_config_file(cfg)
+    bfp.load_config_file(cfg)
+    bfc.load_config_file(cfg)
     Ptab = np.zeros((cfg["Rules"].getint("Y_RANGE"),cfg["Rules"].getint("X_RANGE")), dtype = np.int32)
     Bmap = np.zeros((cfg["Rules"].getint("Y_RANGE"),cfg["Rules"].getint("X_RANGE")), dtype = np.int32)
     Bmap, CANT_GENERATE = bfb.generate_bot_ships(Bmap)

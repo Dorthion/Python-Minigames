@@ -5,10 +5,12 @@ from Source import battleships_functions_play as play
 
 def Play_Game(screen, bg, Bmap1, Bmap2, cfg):
     font = pygame.font.Font("Assets/Font/overpass-regular.otf", 40)
+    screen, bg = UI.Update_Screen_Values(screen, bg)
 
     #Initial Values
     CLICK = False
     RUNNING = True
+    play.load_config_file(cfg)
     rect_map = UI.Rect_Player_AI_Map()
     rects_play, text_pos = UI.Rect_Player_AI_Play()
     texts = [font.render(cfg["Text"]["AI1"], True, (255, 255, 255)), 
@@ -22,7 +24,7 @@ def Play_Game(screen, bg, Bmap1, Bmap2, cfg):
     #InGame
     while RUNNING:
         #Screen properties per update
-        dt = pygame.time.Clock().tick(cfg["Basic"].getint("FPS")) / 1000.0    #DeltaTime
+        #dt = pygame.time.Clock().tick(cfg["Basic"].getint("FPS")) / 1000.0    #DeltaTime
         mx, my = pygame.mouse.get_pos()
         screen.blit(bg,(0,0))
 
@@ -41,12 +43,14 @@ def Play_Game(screen, bg, Bmap1, Bmap2, cfg):
                 Bmap1 = play.AI_shot(Bmap1)
                 if (1 in Bmap1) == False:
                     ai1_win_con = True
+                    cfg.set("Points","AI1_PTS",str(cfg["Points"].getint("AI1_PTS")+1))
                     shoot = False
                 
         if shoot:
                 Bmap2 = play.AI_shot(Bmap2)
                 if (1 in Bmap2) == False:
                     ai2_win_con = True
+                    cfg.set("Points","AI2_PTS",str(cfg["Points"].getint("AI2_PTS")+1))
                     shoot = False
                     
         #Events and update

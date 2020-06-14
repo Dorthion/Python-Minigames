@@ -5,10 +5,12 @@ from Source import battleships_functions_play as play
 
 def Play_Game(screen, bg, Ptab, Bmap, cfg):
     font = pygame.font.Font("Assets/Font/overpass-regular.otf", 40)
-
+    screen, bg = UI.Update_Screen_Values(screen, bg)
+    
     #Initial Values
     CLICK = False
     RUNNING = True
+    play.load_config_file(cfg)
     rect_map = UI.Rect_Player_AI_Map()
     rects_play, text_pos = UI.Rect_Player_AI_Play()
     texts = [font.render(cfg["Text"]["PLAYER"], True, (255, 255, 255)), 

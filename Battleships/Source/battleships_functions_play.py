@@ -1,8 +1,8 @@
 import random as rand
-from configparser import ConfigParser
 
-cfg = ConfigParser()
-cfg.read("./cfg.ini") #Maybe ../
+def load_config_file(config):    
+    global cfg
+    cfg = config
 
 def shot(Map1,y,x):
     if Map1[y][x] == 3 or Map1[y][x] == 4:
@@ -29,15 +29,21 @@ def Player_shot(Map1,y,x):
     return Map1
     
 def AI_shot(Map1):
-    x = -1
-    y = -1
-    i = 0
+    #Alg1 - Full random
     if cfg["Basic"].getint("ALG") == 1:
-        x = rand.randrange(cfg["Rules"].getint("X_RANGE"))
-        y = rand.randrange(cfg["Rules"].getint("Y_RANGE"))
-        while (Map1[y][x] == 3 or Map1[y][x] == 4) and i < cfg["Rules"].getint("X_RANGE")*cfg["Rules"].getint("Y_RANGE"):
-            x = rand.randrange(cfg["Rules"].getint("X_RANGE"))
-            y = rand.randrange(cfg["Rules"].getint("Y_RANGE"))
-            i = i+1
+        x, y = Rand_Empty_Tile(Map1)
         Map1,temp = shot(Map1,y,x)
         return Map1
+    #Alg2 - Random + Predict ships
+    if cfg["Basic"].getint("ALG") == 2:
+        
+        Map1,temp = shot(Map1,y,x)
+        return Map1
+
+def Rand_Empty_Tile(Map1):
+    x = rand.randrange(cfg["Rules"].getint("X_RANGE"))
+    y = rand.randrange(cfg["Rules"].getint("Y_RANGE"))
+    while (Map1[y][x] == 3 or Map1[y][x] == 4):
+        x = rand.randrange(cfg["Rules"].getint("X_RANGE"))
+        y = rand.randrange(cfg["Rules"].getint("Y_RANGE"))
+    return x,y

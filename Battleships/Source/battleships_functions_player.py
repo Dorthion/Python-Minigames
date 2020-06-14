@@ -1,8 +1,7 @@
-#from Source import Settings as Set
-from configparser import ConfigParser
-
-cfg = ConfigParser()
-cfg.read("./cfg.ini") #Maybe ../
+def load_config_file(config):    
+    global cfg
+    cfg = config
+    
 #Functions
 def change_ship(pmap, cly, clx):
     xi = 0

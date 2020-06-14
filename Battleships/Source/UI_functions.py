@@ -113,7 +113,7 @@ def Draw_Player_Map_Play(screen, Ptab):
     wd, ht = New_Resolution()
     for y in range(cfg["Rules"].getint("Y_RANGE")):
         for x in range(cfg["Rules"].getint("X_RANGE")):
-            if Ptab[y][x] == 0 or Ptab[y][x] == 1 or Ptab[y][x] == 2:
+            if Ptab[y][x] == 0 or Ptab[y][x] == 1 or Ptab[y][x] == 2 or Ptab[y][x] == 5:
                 pygame.draw.rect(screen, BLUE, ((wd / 2) + 25 + 34 * x, 100 + 34 * y, 32, 32))
             if Ptab[y][x] == 3:
                 pygame.draw.rect(screen, GREEN, ((wd / 2) + 25 + 34 * x, 100 + 34 * y, 32, 32))
@@ -124,7 +124,7 @@ def Draw_Player_AI2_Play(screen, Bmap):
     wd, ht = New_Resolution()
     for y in range(cfg["Rules"].getint("Y_RANGE")):
         for x in range(cfg["Rules"].getint("X_RANGE")):
-            if Bmap[y][x] == 0 or Bmap[y][x] == 1 or Bmap[y][x] == 2:
+            if Bmap[y][x] == 0 or Bmap[y][x] == 1 or Bmap[y][x] == 2 or Bmap[y][x] == 5: #Include later similar methods
                 pygame.draw.rect(screen, BLUE, (50 + 34 * x, 100 + 34 * y, 32, 32))
             if Bmap[y][x] == 3:
                 pygame.draw.rect(screen, GREEN, (50 + 34 * x, 100 + 34 * y, 32, 32))

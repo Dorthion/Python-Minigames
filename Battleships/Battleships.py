@@ -38,7 +38,7 @@ RUNNING = True
 #InGame
 while RUNNING:
     #Screen properties per update
-    dt = pygame.time.Clock().tick(cfg["Basic"].getint("FPS")) / 1000.0    #DeltaTime
+    pygame.time.Clock().tick(cfg["Basic"].getint("FPS"))
     mx, my = pygame.mouse.get_pos()
     screen.blit(bg,(0,0))
 
@@ -48,23 +48,19 @@ while RUNNING:
     if CLICK:
         Temp_width = cfg["Basic"].getint("WIDTH")
         Temp_height = cfg["Basic"].getint("HEIGHT")
+        
         if rects[0].collidepoint((mx,my)):   #Play_Player_vs_AI
-            print("Set")
-            pmab, bmap = spa.Play_Game(screen, bg, cfg)
-            print("Play")
-            ppa.Play_Game(screen, bg,pmab, bmap, cfg)
-            print("End")
-            screen = pygame.display.set_mode((Temp_width,Temp_height))
+            play = True
+            while play == True:
+                pmab, bmap = spa.Play_Game(screen, bg, cfg)
+                ppa.Play_Game(screen, bg,pmab, bmap, cfg)
 
         if rects[1].collidepoint((mx,my)):   #Play_AI_vs_AI
             play = True
             while play == True:
-                print("Set")
                 bmap1, bmap2, play = saa.Play_Game(screen, bg, cfg)
                 if play == True:
-                    print("Play")
                     play = paa.Play_Game(screen, bg, bmap1, bmap2, cfg)
-                print("End")
 
         if rects[2].collidepoint((mx,my)):   #Options
             config, changed_game_opt = opt.run(screen, bg, cfg)

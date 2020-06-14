@@ -6,6 +6,7 @@ from Source import battleships_functions_play as play
 def Play_Game(screen, bg, Bmap1, Bmap2, cfg):
     font = pygame.font.Font("Assets/Font/overpass-regular.otf", 40)
     screen, bg = UI.Update_Screen_Values(screen, bg)
+    #pygame.time.Clock().tick(cfg["Basic"].getint("FPS"))
 
     #Initial Values
     CLICK = False
@@ -18,13 +19,14 @@ def Play_Game(screen, bg, Bmap1, Bmap2, cfg):
              font.render(cfg["Text"]["SCORE"], True, (255, 255, 255)),
              font.render(str(cfg["Points"].getint("AI1_PTS")) + " - " + str(cfg["Points"].getint("AI2_PTS")), True, (255, 255, 255))]
     
+    AI1 = play.PlayBot(Bmap1)
+    AI2 = play.PlayBot(Bmap2)
     ai1_win_con = False
     ai2_win_con = False
     shoot = True
     #InGame
     while RUNNING:
         #Screen properties per update
-        #dt = pygame.time.Clock().tick(cfg["Basic"].getint("FPS")) / 1000.0    #DeltaTime
         mx, my = pygame.mouse.get_pos()
         screen.blit(bg,(0,0))
 
@@ -39,16 +41,22 @@ def Play_Game(screen, bg, Bmap1, Bmap2, cfg):
             print("End of simulation")
             return True
         
+        #pygame.time.wait(500)
+        
         if shoot:
-                Bmap1 = play.AI_shot(Bmap1)
-                if (1 in Bmap1) == False:
+                #Bmap1 = play.AI_shot(Bmap1,1)
+                AI1.AI_shot()
+                if (1 in AI1.Map) == False:
                     ai1_win_con = True
                     cfg.set("Points","AI1_PTS",str(cfg["Points"].getint("AI1_PTS")+1))
                     shoot = False
-                
+        
+        #pygame.time.wait(500)
+        
         if shoot:
-                Bmap2 = play.AI_shot(Bmap2)
-                if (1 in Bmap2) == False:
+                #Bmap2 = play.AI_shot(Bmap2,2)
+                AI2.AI_shot()
+                if (1 in AI2.Map) == False:
                     ai2_win_con = True
                     cfg.set("Points","AI2_PTS",str(cfg["Points"].getint("AI2_PTS")+1))
                     shoot = False

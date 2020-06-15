@@ -10,7 +10,7 @@ from Source import Set_Ai_ai_game as saa               #saa - set ai ai
 from Source import Play_ai_ai_game as paa              #paa - play ai ai
 from Source import Options_game as opt                 #opt - options
 
-#Init
+#Init config file
 global cfg
 cfg = ConfigParser()
 if os.path.isfile("./cfg.ini") == False:
@@ -18,6 +18,7 @@ if os.path.isfile("./cfg.ini") == False:
 else:
     cfg.read("./cfg.ini")
 
+#Init
 pygame.init()
 UI.load_config_file(cfg)
 screen = pygame.display.set_mode((cfg["Basic"].getint("WIDTH"),cfg["Basic"].getint("HEIGHT")))
@@ -27,30 +28,27 @@ pygame.display.set_caption(cfg["Basic"]["TITLE"])
 icon = pygame.image.load("Assets/Images/ship.png")
 bg = pygame.image.load("Assets/Images/CleanBackground.png")
 menubg = pygame.image.load("Assets/Images/MenuGame.png")
-#font = pygame.font.Font("Assets/Font/overpass-regular.otf", 12) #now unnecessary
 font = pygame.font.Font("Assets/Font/impact.ttf", 24)
 pygame.display.set_icon(icon)
 
 #Initial values
 screen.blit(bg,(0,0))
-rects = UI.Rect_Main_Menu()
+rects, text_pos = UI.Rect_Main_Menu()
 CLICK = False
 RUNNING = True
 RUN_BTN = False
 screen.blit(bg,(0,0))
-texts = [font.render("PLAY PLAYER", True, (255, 255, 255)),
-         font.render("PLAY AI", True, (255, 255, 255)),
-         font.render("OPTIONS", True, (255, 255, 255)),
-         font.render("EXIT", True, (255, 255, 255))] 
+texts = [font.render("PLAY PLAYER", True, (52, 52, 54)),
+         font.render("PLAY AI", True, (52, 52, 54)),
+         font.render("OPTIONS", True, (52, 52, 54)),
+         font.render("EXIT", True, (52, 52, 54))] 
 
 #InGame
 while RUNNING:
-    #Screen properties per update
+    #Screen properties per update and Draw Buttons
     mx, my = pygame.mouse.get_pos()
     screen.blit(menubg,(0,0))
-
-    #Draw
-    UI.Draw_Red_Btn(screen, rects)   
+    UI.Draw_Pos(screen, texts, text_pos)
     
     #Buttons functions
     if CLICK:
@@ -80,7 +78,6 @@ while RUNNING:
             RUN_BTN = True
             config, changed_game_opt = opt.run(screen, bg, cfg)
             if changed_game_opt:
-                print("Save new config file")
                 cfg = opt.save_new_conf(config)
                 UI.load_config_file(cfg)
         
@@ -90,9 +87,9 @@ while RUNNING:
             break
         
         if RUN_BTN == True:
-            cfg.set("Basic","WIDTH",str(Temp_width))
-            cfg.set("Basic","HEIGHT",str(Temp_height))        
-            screen = pygame.display.set_mode((Temp_width,Temp_height))
+            cfg.set("Basic","WIDTH", str(Temp_width))
+            cfg.set("Basic","HEIGHT", str(Temp_height))        
+            screen = pygame.display.set_mode((Temp_width, Temp_height))
         
         RUN_BTN = False
             
@@ -111,4 +108,3 @@ while RUNNING:
 #Quit game
 pygame.display.quit()
 pygame.quit()
-quit()

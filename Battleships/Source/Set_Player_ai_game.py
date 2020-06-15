@@ -11,6 +11,7 @@ def Play_Game(screen, bg, cfg):
     #Resources (Images, Icons, Fonts)
     haha = pygame.image.load("Assets/Images/haha.jpg")
     haha = pygame.transform.scale(haha, (34*cfg["Rules"].getint("X_RANGE"), 34*cfg["Rules"].getint("Y_RANGE")))
+    grid = pygame.image.load("Assets/Images/WhiteGrid.png")
     #font = pygame.font.Font("Resources/overpass-regular.otf", 12)
 
     #Initial Values
@@ -29,6 +30,7 @@ def Play_Game(screen, bg, cfg):
 
     #InGame
     while RUNNING:
+        
         #Screen properties per update
         dt = pygame.time.Clock().tick(cfg["Basic"].getint("FPS")) / 1000.0    #DeltaTime
         mx, my = pygame.mouse.get_pos()
@@ -36,8 +38,8 @@ def Play_Game(screen, bg, cfg):
 
         #Draw functions 
         UI.Draw_Red_Btn(screen, rects)
-        UI.Draw_Player_Map(screen, Ptab)
-        UI.Draw_Player_AI2(screen, Bmap)
+        UI.Draw_Left_Map_Set(screen, Ptab, grid)
+        UI.Draw_Right_Map_Set(screen, Bmap, grid)
         
         #Clickable buttons 
         if CLICK:
@@ -49,7 +51,7 @@ def Play_Game(screen, bg, cfg):
 
             if rect_map.collidepoint((mx,my)):
                 if mx >= 50 and mx < 50+34*cfg["Rules"].getint("X_RANGE") and my >= 100 and my < 100+34*cfg["Rules"].getint("Y_RANGE"):
-                    Ptab = bfp.change_ship(Ptab,my - 100,mx - 50)
+                    Ptab = bfp.change_ship(Ptab,my - 100, mx - 50)
 
             if rects[1].collidepoint((mx,my)):
                 Bmap = np.zeros((cfg["Rules"].getint("Y_RANGE"),cfg["Rules"].getint("X_RANGE")), dtype = np.int32)

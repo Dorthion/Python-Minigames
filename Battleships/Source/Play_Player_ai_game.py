@@ -5,6 +5,7 @@ from Source import battleships_functions_play as play
 
 def Play_Game(screen, bg, Ptab, Bmap, cfg):
     font = pygame.font.Font("Assets/Font/overpass-regular.otf", 40)
+    grid = pygame.image.load("Assets/Images/WhiteGrid.png")
     screen, bg = UI.Update_Screen_Values(screen, bg)
     pygame.time.Clock().tick(cfg["Basic"].getint("FPS"))
     
@@ -28,9 +29,9 @@ def Play_Game(screen, bg, Ptab, Bmap, cfg):
 
         #Draw functions 
         UI.Draw_Red_Btn(screen, rects_play)
-        UI.Draw_Text_Pos(screen, texts, text_pos)
-        UI.Draw_Player_Map_Play(screen, Ptab)
-        UI.Draw_Player_AI2_Play(screen, Bmap)
+        UI.Draw_Pos(screen, texts, text_pos)
+        UI.Draw_Left_Map_Play(screen, Ptab, grid)
+        UI.Draw_Right_Map_Play(screen, Bmap, grid)
         
         #Clickable buttons 
         if rect_map.collidepoint((mx,my)) and CLICK:

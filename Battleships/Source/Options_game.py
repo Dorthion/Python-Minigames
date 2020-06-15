@@ -51,11 +51,11 @@ def run(screen, bg, cfg):
         screen.blit(bg,(0,0))
         
         UI.Draw_Red_Btn(screen, rects_options)
-        UI.Draw_Text_Pos(screen, texts, text_pos)
+        UI.Draw_Pos(screen, texts, text_pos)
         
         if CLICK:
             #X_RANGE
-            if rects_options[0].collidepoint((mx,my)) and X_RANGE_VAL - 1 > 0:
+            if rects_options[0].collidepoint((mx,my)) and X_RANGE_VAL - 1 > 4:
                 X_RANGE_VAL -= 1
                 texts[11] = font_s.render(str(X_RANGE_VAL), True, (255,255,255))
                 cfg.set("Rules","X_RANGE",str(X_RANGE_VAL))
@@ -65,7 +65,7 @@ def run(screen, bg, cfg):
                 cfg.set("Rules","X_RANGE",str(X_RANGE_VAL))
             
             #Y_RANGE
-            if rects_options[2].collidepoint((mx,my)) and Y_RANGE_VAL - 1 > 0:
+            if rects_options[2].collidepoint((mx,my)) and Y_RANGE_VAL - 1 > 4:
                 Y_RANGE_VAL -= 1
                 texts[12] = font_s.render(str(Y_RANGE_VAL), True, (255,255,255))
                 cfg.set("Rules","Y_RANGE",str(Y_RANGE_VAL))

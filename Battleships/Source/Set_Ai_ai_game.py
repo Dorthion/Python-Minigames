@@ -5,10 +5,18 @@ from Source import battleships_functions_bot as bfb
 from Source import battleships_functions_check as bfc
 
 def Play_Game(screen, bg, cfg):
+    
+    #Init
     screen, bg = UI.Update_Screen_Values(screen, bg)
+    pygame.time.Clock().tick(cfg["Basic"].getint("FPS"))
     
     #Resources (Images, Icons, Fonts)
-    #font = pygame.font.Font("Resources/overpass-regular.otf", 12)
+    font = pygame.font.Font("Assets/Font/impact.ttf", 26)
+    font_b = pygame.font.Font("Assets/Font/impact.ttf", 40)
+    font_c = pygame.font.SysFont('segoeuisymbol', 34)
+    square = pygame.image.load("Assets/Images/Square.png")
+    rectangle = pygame.image.load("Assets/Images/Rectangle.png")
+    grid = pygame.image.load("Assets/Images/WhiteGrid.png")
 
     #Initial Values
     RUNNING = True
@@ -21,21 +29,32 @@ def Play_Game(screen, bg, cfg):
     Bmap2 = np.zeros((cfg["Rules"].getint("Y_RANGE"),cfg["Rules"].getint("X_RANGE")), dtype = np.int32)
     Bmap1, CANT_GENERATE1 = bfb.generate_bot_ships(Bmap1)
     Bmap2, CANT_GENERATE2 = bfb.generate_bot_ships(Bmap2)
-    rects = UI.Rect_AI_AI_Set()
+    rects, images_pos, text_pos = UI.Rect_AI_AI_Set()
     rect_map = UI.Rect_Player_AI_Map()
-
-
+    images = [rectangle, square, rectangle, rectangle]
+    texts = [font.render("PLAY", True, (52, 52, 54)),
+             font.render("X", True, (52, 52, 54)),
+             font.render("AI1", True, (52, 52, 54)),
+             font.render("AI2", True, (52, 52, 54)),
+             font_c.render("⟳", True, (52, 52, 54)),
+             font_c.render("⟳", True, (52, 52, 54)),
+             font_b.render(cfg["Text"]["AI1"], True, (255, 255, 255)), 
+             font_b.render(cfg["Text"]["AI2"], True, (255, 255, 255)),
+             font_b.render(cfg["Text"]["SCORE"], True, (255, 255, 255)),
+             font_b.render(str(cfg["Points"].getint("AI1_PTS")) + " - " + str(cfg["Points"].getint("AI2_PTS")), True, (255, 255, 255))]
+    
     #InGame
     while RUNNING:
+        
         #Screen properties per update
-        dt = pygame.time.Clock().tick(cfg["Basic"].getint("FPS")) / 1000.0    #DeltaTime
         mx, my = pygame.mouse.get_pos()
         screen.blit(bg,(0,0))
 
-        #Draw functions 
-        UI.Draw_Red_Btn(screen, rects)
-        UI.Draw_Player_Map(screen, Bmap1)
-        UI.Draw_Player_AI2(screen, Bmap2)
+        #Draw functions
+        UI.Draw_Left_Map_Set(screen, Bmap1, grid)
+        UI.Draw_Right_Map_Set(screen, Bmap2, grid)
+        UI.Draw_Pos(screen, images, images_pos)
+        UI.Draw_Pos(screen, texts, text_pos)
         
         #Clickable buttons
         if CLICK:
@@ -67,4 +86,3 @@ def Play_Game(screen, bg, cfg):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     CLICK = True
- #pygame.quit()

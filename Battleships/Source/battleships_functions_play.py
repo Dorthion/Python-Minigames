@@ -74,9 +74,7 @@ class PlayBot:
         self.rand_move = []
         self.act_val = []
         self.last_val = []
-        self.swap = False
         self.direction = 0
-        self.ship_len = 0
     
     def AI_shot(self):
         #Alg1 - Full random
@@ -96,6 +94,10 @@ class PlayBot:
                 check, self.last_val = next_move(self.direction,self.last_val[0],self.last_val[1])
                 if check:
                     self.direction = 0
+                else:
+                    temp = opposite_direction(self.direction)
+                    if self.rand_move:
+                        self.rand_move = [temp]
             
             if not self.rand_move and self.direction == 0:
                 self.hunt_on = False
@@ -115,6 +117,8 @@ class PlayBot:
         else:
             x, y = self.last_val[0], self.last_val[1]
             self.Map, temp = shot(self.Map,self.last_val[1],self.last_val[0])
+            if self.Map[y][x] == 3:
+                self.Map = block_corners(self.Map,y,x)
             if self.Map[y][x] == 4:
                 self.last_val = self.act_val
                 x, y = self.last_val[0], self.last_val[1]

@@ -40,24 +40,29 @@ def Play_Game(screen, bg, cfg):
         UI.Draw_Player_AI2(screen, Bmap)
         
         #Clickable buttons 
-        if rects[0].collidepoint((mx,my)) and CLICK:
-            if SHOW_HAHA:
-                SHOW_HAHA = False
-            else:
-                SHOW_HAHA = True
+        if CLICK:
+            if rects[0].collidepoint((mx,my)):
+                if SHOW_HAHA:
+                    SHOW_HAHA = False
+                else:
+                    SHOW_HAHA = True
 
-        if rect_map.collidepoint((mx,my)) and CLICK:
-            if mx >= 50 and mx < 50+34*cfg["Rules"].getint("X_RANGE") and my >= 100 and my < 100+34*cfg["Rules"].getint("Y_RANGE"):
-                Ptab = bfp.change_ship(Ptab,my - 100,mx - 50)
+            if rect_map.collidepoint((mx,my)):
+                if mx >= 50 and mx < 50+34*cfg["Rules"].getint("X_RANGE") and my >= 100 and my < 100+34*cfg["Rules"].getint("Y_RANGE"):
+                    Ptab = bfp.change_ship(Ptab,my - 100,mx - 50)
 
-        if rects[1].collidepoint((mx,my)) and CLICK:
-            Bmap = np.zeros((cfg["Rules"].getint("Y_RANGE"),cfg["Rules"].getint("X_RANGE")), dtype = np.int32)
-            Bmap, CANT_GENERATE = bfb.generate_bot_ships(Bmap)
-                
-        if rects[2].collidepoint((mx,my)) and CLICK:
-            bfc.check_ship_size(Ptab)
-            Ptab = np.where(Ptab == 4,1,Ptab)
-            return Ptab, Bmap
+            if rects[1].collidepoint((mx,my)):
+                Bmap = np.zeros((cfg["Rules"].getint("Y_RANGE"),cfg["Rules"].getint("X_RANGE")), dtype = np.int32)
+                Bmap, CANT_GENERATE = bfb.generate_bot_ships(Bmap)
+
+            if rects[2].collidepoint((mx,my)):
+                bfc.check_ship_size(Ptab)
+                Ptab = np.where(Ptab == 4,1,Ptab)
+                return Ptab, Bmap, True
+            
+            if rects[3].collidepoint((mx,my)):
+                print("Back to Menu")
+                return None, None, False
 
         #Check to draw haha
         if(SHOW_HAHA == True):
@@ -75,4 +80,3 @@ def Play_Game(screen, bg, cfg):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     CLICK = True
- #pygame.quit()

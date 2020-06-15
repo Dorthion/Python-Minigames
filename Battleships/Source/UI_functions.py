@@ -19,7 +19,8 @@ def Rect_Main_Menu():
 def Rect_Player_AI_Set():
     return [pygame.Rect(700,50,80,40),                                                               #btnhidebot
             pygame.Rect(600,50,80,40),                                                               #btnrandbot
-            pygame.Rect((cfg["Basic"].getint("WIDTH")/2) - 50,40,100,40)]                            #btnplay
+            pygame.Rect((cfg["Basic"].getint("WIDTH")/2) - 50,40,100,40),                            #btnplay
+            pygame.Rect(25,25,50,50)]                                                                #Exit_btn
 
 def Rect_Player_AI_Play():
     return [pygame.Rect(25,25,50,50),                                                                #btnsurrender

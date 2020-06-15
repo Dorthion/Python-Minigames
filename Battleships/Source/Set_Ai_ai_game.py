@@ -33,9 +33,9 @@ def Play_Game(screen, bg, cfg):
     rect_map = UI.Rect_Player_AI_Map()
     images = [rectangle, square, rectangle, rectangle]
     texts = [font.render("PLAY", True, (52, 52, 54)),
-             font.render("X", True, (52, 52, 54)),
-             font.render("AI1", True, (52, 52, 54)),
-             font.render("AI2", True, (52, 52, 54)),
+             font.render("χ", True, (52, 52, 54)),
+             font.render("AI 1", True, (52, 52, 54)),
+             font.render("AI 2", True, (52, 52, 54)),
              font_c.render("⟳", True, (52, 52, 54)),
              font_c.render("⟳", True, (52, 52, 54)),
              font_b.render(cfg["Text"]["AI1"], True, (255, 255, 255)), 

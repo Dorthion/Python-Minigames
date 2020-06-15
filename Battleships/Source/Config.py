@@ -23,8 +23,8 @@ def create_new_config():
     config["Text"] = {
         "PLAYER":"PLAYER",
         "AI":"AI",
-        "AI1":"AI1",
-        "AI2":"AI2",
+        "AI1":"AI 1",
+        "AI2":"AI 2",
         "SCORE":"SCORE"
     }
 

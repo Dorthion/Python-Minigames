@@ -33,9 +33,9 @@ def Play_Game(screen, bg, cfg):
     rect_map = UI.Rect_Player_AI_Map()
     images = [rectangle, square, rectangle, rectangle]
     texts = [font.render("PLAY", True, (52, 52, 54)),
-             font.render("X", True, (52, 52, 54)),
-             font.render("AI1", True, (52, 52, 54)),
-             font.render("AI2", True, (52, 52, 54)),
+             font.render("χ", True, (52, 52, 54)),
+             font.render("AI 1", True, (52, 52, 54)),
+             font.render("AI 2", True, (52, 52, 54)),
              font_c.render("⟳", True, (52, 52, 54)),
              font_c.render("⟳", True, (52, 52, 54)),
              font_b.render(cfg["Text"]["AI1"], True, (255, 255, 255)), 
@@ -59,12 +59,10 @@ def Play_Game(screen, bg, cfg):
         #Clickable buttons
         if CLICK:
             if rects[0].collidepoint((mx,my)):
-                print("Play game")
                 return Bmap1, Bmap2, True
         
         if CLICK:
             if rects[1].collidepoint((mx,my)):
-                print("Back to menu")
                 return None, None, False
             
             if rects[2].collidepoint((mx,my)):

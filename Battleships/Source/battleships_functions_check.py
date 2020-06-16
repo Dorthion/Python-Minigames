@@ -115,8 +115,22 @@ def check_ship_size(pmap):
             if(pmap[i][j] == 1):
                 size, pmap = set_ship_size(pmap, i, j, 1)
                 lista.append(size)
-    lista.sort()
-    print(lista)
+    lista.sort(reverse = True)
+    return lista
+    
+def check_player_map(lista):
+    ship_size = cfg["Rules"].getint("SHIP_SIZE")
+    i = 1
+    while ship_size != 0:
+        if ship_size != lista.count(i):
+            return False
+        lista = list(filter(lambda a: a != i, lista))
+        ship_size -= 1
+        i += 1
+    if not lista:
+        return True
+    else:
+        return False
 
 def set_ship_size(pmap,y,x,size):
     pmap[y][x] = 4

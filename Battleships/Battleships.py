@@ -23,6 +23,7 @@ pygame.init()
 UI.load_config_file(cfg)
 screen = pygame.display.set_mode((cfg["Basic"].getint("WIDTH"),cfg["Basic"].getint("HEIGHT")))
 pygame.display.set_caption(cfg["Basic"]["TITLE"])
+pygame.time.Clock().tick(cfg["Basic"].getint("FPS"))
 
 #Resources (Images, Icons, Fonts)
 icon = pygame.image.load("Assets/Images/ship.png")
@@ -32,12 +33,10 @@ font = pygame.font.Font("Assets/Font/impact.ttf", 24)
 pygame.display.set_icon(icon)
 
 #Initial values
-screen.blit(bg,(0,0))
-rects, text_pos = UI.Rect_Main_Menu()
 CLICK = False
 RUNNING = True
 RUN_BTN = False
-screen.blit(bg,(0,0))
+rects, text_pos = UI.Rect_Main_Menu()
 texts = [font.render("PLAY PLAYER", True, (52, 52, 54)),
          font.render("PLAY AI", True, (52, 52, 54)),
          font.render("OPTIONS", True, (52, 52, 54)),
@@ -45,6 +44,7 @@ texts = [font.render("PLAY PLAYER", True, (52, 52, 54)),
 
 #InGame
 while RUNNING:
+    
     #Screen properties per update and Draw Buttons
     mx, my = pygame.mouse.get_pos()
     screen.blit(menubg,(0,0))
@@ -62,16 +62,16 @@ while RUNNING:
             while play == True:
                 pmab, bmap, play = spa.Play_Game(screen, bg, cfg)
                 if play == True:
-                    ppa.Play_Game(screen, bg,pmab, bmap, cfg)
+                    ppa.Play_Game(screen, bg, pmab, bmap, cfg)
         
         #Play_AI_vs_AI
         if rects[1].collidepoint((mx,my)):
-            RUN_BTN = True
             play = True
+            RUN_BTN = True
             while play == True:
                 bmap1, bmap2, play = saa.Play_Game(screen, bg, cfg)
                 if play == True:
-                    play = paa.Play_Game(screen, bg, bmap1, bmap2, cfg)
+                    paa.Play_Game(screen, bg, bmap1, bmap2, cfg)
         
         #Options
         if rects[2].collidepoint((mx,my)):

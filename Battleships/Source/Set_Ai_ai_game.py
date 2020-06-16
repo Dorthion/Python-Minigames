@@ -59,12 +59,10 @@ def Play_Game(screen, bg, cfg):
         #Clickable buttons
         if CLICK:
             if rects[0].collidepoint((mx,my)):
-                print("Play game")
                 return Bmap1, Bmap2, True
         
         if CLICK:
             if rects[1].collidepoint((mx,my)):
-                print("Back to menu")
                 return None, None, False
             
             if rects[2].collidepoint((mx,my)):

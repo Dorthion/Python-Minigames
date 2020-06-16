@@ -16,8 +16,9 @@ def Play_Game(screen, bg, Ptab, Bmap, cfg):
     #Initial Values
     CLICK = False
     RUNNING = True
+    shoot = True
     play.load_config_file(cfg)
-    AI = play.PlayBot(Ptab)
+    AI = play.PlayBot(Ptab, cfg["Basic"].getint("ALG1"))
     rect_map = UI.Rect_Player_AI_Map()
     rects, images_pos, text_pos = UI.Rect_Play()
     images = [square]
@@ -41,15 +42,22 @@ def Play_Game(screen, bg, Ptab, Bmap, cfg):
         UI.Draw_Pos(screen, texts, text_pos)
         
         #Clickable buttons 
-        if rect_map.collidepoint((mx,my)) and CLICK:
+        if rect_map.collidepoint((mx,my)) and CLICK and shoot:
             if mx >= 50 and mx < 50+34*cfg["Rules"].getint("X_RANGE") and my >= 100 and my < 100+34*cfg["Rules"].getint("Y_RANGE"):
                 Bmap, shooted = play.Player_shot(Bmap,my - 100,mx - 50)
-                if shooted:
+                if (1 in Bmap) == False:
+                    shoot = False
+                    cfg.set("Points","PLAYER_PTS",str(cfg["Points"].getint("PLAYER_PTS") + 1))
+                    texts[3] = font.render(str(cfg["Points"].getint("PLAYER_PTS")) + " - " + str(cfg["Points"].getint("AI_PTS")), True, (255, 255, 255))
+                if shooted and shoot:
                     AI.AI_shot()
+                    if (1 in AI.Map) == False:
+                        shoot = False
+                        cfg.set("Points","AI_PTS",str(cfg["Points"].getint("AI_PTS") + 1))
+                        texts[3] = font.render(str(cfg["Points"].getint("PLAYER_PTS")) + " - " + str(cfg["Points"].getint("AI_PTS")), True, (255, 255, 255))
         
         #Exit button
         if rects[0].collidepoint((mx,my)) and CLICK:
-            print("Exit game player vs ai")
             return
 
         #Events and update

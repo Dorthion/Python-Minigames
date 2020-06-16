@@ -12,8 +12,8 @@ def Play_Game(screen, bg, cfg):
     pygame.time.Clock().tick(cfg["Basic"].getint("FPS"))
     
     #Resources (Images, Icons, Fonts)
-    haha = pygame.image.load("Assets/Images/haha.jpg")
-    haha = pygame.transform.scale(haha, (34*cfg["Rules"].getint("X_RANGE"), 34*cfg["Rules"].getint("Y_RANGE")))
+    hidden = pygame.image.load("Assets/Images/Hidden.png")
+    hidden = pygame.transform.scale(hidden, (34*cfg["Rules"].getint("X_RANGE"), 34*cfg["Rules"].getint("Y_RANGE")))
     square = pygame.image.load("Assets/Images/Square.png")
     rectangle = pygame.image.load("Assets/Images/Rectangle.png")
     grid = pygame.image.load("Assets/Images/WhiteGrid.png")
@@ -23,7 +23,7 @@ def Play_Game(screen, bg, cfg):
 
     #Initial Values
     RUNNING = True
-    SHOW_HAHA = True
+    SHOW_HIDDEN = True
     CANT_GENERATE = False
     CLICK = False
     bfb.load_config_file(cfg)
@@ -39,7 +39,7 @@ def Play_Game(screen, bg, cfg):
     texts = [font_b.render(cfg["Text"]["PLAYER"], True, (255, 255, 255)), 
              font_b.render(cfg["Text"]["AI"], True, (255, 255, 255)),
              font_b.render(cfg["Text"]["SCORE"], True, (255, 255, 255)),
-             font_b.render(str(cfg["Points"].getint("AI1_PTS")) + " - " + str(cfg["Points"].getint("AI2_PTS")), True, (255, 255, 255)),
+             font_b.render(str(cfg["Points"].getint("PLAYER_PTS")) + " - " + str(cfg["Points"].getint("AI_PTS")), True, (255, 255, 255)),
              font.render("χ", True, (52, 52, 54)),
              font.render("PLAY", True, (52, 52, 54)),
              font.render("GEN.", True, (52, 52, 54)),
@@ -72,22 +72,22 @@ def Play_Game(screen, bg, cfg):
             
             #Hide AI Map
             if rects[0].collidepoint((mx,my)):
-                if SHOW_HAHA:
-                    SHOW_HAHA = False
+                if SHOW_HIDDEN:
+                    SHOW_HIDDEN = False
                 else:
-                    SHOW_HAHA = True
+                    SHOW_HIDDEN = True
 
             #Generate again AI Map        
             if rects[1].collidepoint((mx,my)):
                 Bmap = np.zeros((cfg["Rules"].getint("Y_RANGE"),cfg["Rules"].getint("X_RANGE")), dtype = np.int32)
-                Bmap, CANT_GENERATE = bfb.generate_bot_ships(Bmap)
-            
+                Bmap, CANT_GENERATE = bfb.generate_bot_ships(Bmap)      
             
             #Play game Player vs AI
             if rects[2].collidepoint((mx,my)):
                 CANT_GENERATE = False
                 lista = bfc.check_ship_size(Ptab)
                 Ptab = np.where(Ptab == 4,1,Ptab)
+                
                 if bfc.check_player_map(lista):
                     return Ptab, Bmap, True
                 else: 
@@ -96,7 +96,6 @@ def Play_Game(screen, bg, cfg):
             #Exit
             if rects[3].collidepoint((mx,my)):
                 CANT_GENERATE = False
-                print("Back to Menu")
                 return None, None, False
             
             #Generate Map for player      
@@ -104,16 +103,15 @@ def Play_Game(screen, bg, cfg):
                 Ptab = np.zeros((cfg["Rules"].getint("Y_RANGE"),cfg["Rules"].getint("X_RANGE")), dtype = np.int32)
                 Ptab, CANT_GENERATE = bfb.generate_bot_ships(Ptab)
 
-        #Check to draw haha
-        if(SHOW_HAHA == True):
-            screen.blit(haha,((cfg["Rules"].getint("X_RANGE") * 34) + 100,100))
+        #Check to draw hidden image
+        if(SHOW_HIDDEN == True):
+            screen.blit(hidden,((cfg["Rules"].getint("X_RANGE") * 34) + 100,100))
             
         if(CANT_GENERATE == True):
             screen.blit(Gen_again,((cfg["Basic"].getint("WIDTH")/8), cfg["Basic"].getint("HEIGHT")/2))
 
         #Events and update
         pygame.display.update()
-
         CLICK = False
 
         for event in pygame.event.get():

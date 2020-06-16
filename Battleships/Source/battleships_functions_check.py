@@ -116,7 +116,6 @@ def check_ship_size(pmap):
                 size, pmap = set_ship_size(pmap, i, j, 1)
                 lista.append(size)
     lista.sort(reverse = True)
-    print(lista)
     return lista
     
 def check_player_map(lista):
@@ -125,9 +124,13 @@ def check_player_map(lista):
     while ship_size != 0:
         if ship_size != lista.count(i):
             return False
+        lista = list(filter(lambda a: a != i, lista))
         ship_size -= 1
         i += 1
-    return True
+    if not lista:
+        return True
+    else:
+        return False
 
 def set_ship_size(pmap,y,x,size):
     pmap[y][x] = 4

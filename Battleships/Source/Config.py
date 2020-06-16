@@ -9,7 +9,8 @@ def create_new_config():
         "WIDTH":"800",
         "HEIGHT":"600",
         "FPS":"60",
-        "ALG":"1"
+        "ALG1":"1",
+        "ALG2":"2"
     }
 
     #Game Rules

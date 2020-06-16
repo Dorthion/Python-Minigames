@@ -26,10 +26,8 @@ def Play_Game(screen, bg, Bmap1, Bmap2, cfg):
              font_s.render("χ", True, (52, 52, 54))]
     images = [square]
     
-    AI1 = play.PlayBot(Bmap1)
-    AI2 = play.PlayBot(Bmap2)
-    ai1_win_con = False
-    ai2_win_con = False
+    AI1 = play.PlayBot(Bmap1, cfg["Basic"].getint("ALG1"))
+    AI2 = play.PlayBot(Bmap2, cfg["Basic"].getint("ALG2"))
     shoot = True
     
     #InGame
@@ -47,25 +45,23 @@ def Play_Game(screen, bg, Bmap1, Bmap2, cfg):
         
         #Clickable buttons 
         if rects[0].collidepoint((mx,my)) and CLICK:
-            print("End of simulation")
             return True
         
         if shoot:
             AI1.AI_shot()
             if (1 in AI1.Map) == False:
-                ai1_win_con = True
-                cfg.set("Points","AI1_PTS",str(cfg["Points"].getint("AI1_PTS")+1))
+                cfg.set("Points","AI2_PTS",str(cfg["Points"].getint("AI2_PTS") + 1))
                 texts[3] = font.render(str(cfg["Points"].getint("AI1_PTS")) + " - " + str(cfg["Points"].getint("AI2_PTS")), True, (255, 255, 255))
                 shoot = False
-        
+
+        pygame.display.update()
         if shoot:
             AI2.AI_shot()
             if (1 in AI2.Map) == False:
-                ai2_win_con = True
-                cfg.set("Points","AI2_PTS",str(cfg["Points"].getint("AI2_PTS")+1))
+                cfg.set("Points","AI1_PTS",str(cfg["Points"].getint("AI1_PTS") + 1))
                 texts[3] = font.render(str(cfg["Points"].getint("AI1_PTS")) + " - " + str(cfg["Points"].getint("AI2_PTS")), True, (255, 255, 255))
                 shoot = False
-                    
+           
         #Events and update
         pygame.display.update()
 

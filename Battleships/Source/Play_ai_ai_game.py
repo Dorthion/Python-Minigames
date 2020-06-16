@@ -1,5 +1,6 @@
 import pygame
 import numpy as np
+import random as rand
 from Source import UI_functions as UI
 from Source import battleships_functions_play as play
 
@@ -19,6 +20,7 @@ def Play_Game(screen, bg, Bmap1, Bmap2, cfg):
     play.load_config_file(cfg)
     rect_map = UI.Rect_Player_AI_Map()
     rects, images_pos, text_pos = UI.Rect_Play()
+    choose = rand.randint(0,1)
     texts = [font.render(cfg["Text"]["AI1"], True, (255, 255, 255)), 
              font.render(cfg["Text"]["AI2"], True, (255, 255, 255)),
              font.render(cfg["Text"]["SCORE"], True, (255, 255, 255)),
@@ -26,8 +28,8 @@ def Play_Game(screen, bg, Bmap1, Bmap2, cfg):
              font_s.render("χ", True, (52, 52, 54))]
     images = [square]
     
-    AI1 = play.PlayBot(Bmap1, cfg["Basic"].getint("ALG1"))
-    AI2 = play.PlayBot(Bmap2, cfg["Basic"].getint("ALG2"))
+    AI1 = play.PlayBot(Bmap1, cfg["Basic"].getint("ALG2"))
+    AI2 = play.PlayBot(Bmap2, cfg["Basic"].getint("ALG1"))
     shoot = True
     
     #InGame
@@ -47,15 +49,16 @@ def Play_Game(screen, bg, Bmap1, Bmap2, cfg):
         if rects[0].collidepoint((mx,my)) and CLICK:
             return True
         
-        if shoot:
+        if shoot and choose in [0,2]:
+            choose = 2
             AI1.AI_shot()
             if (1 in AI1.Map) == False:
                 cfg.set("Points","AI2_PTS",str(cfg["Points"].getint("AI2_PTS") + 1))
                 texts[3] = font.render(str(cfg["Points"].getint("AI1_PTS")) + " - " + str(cfg["Points"].getint("AI2_PTS")), True, (255, 255, 255))
                 shoot = False
-
-        pygame.display.update()
-        if shoot:
+        
+        if shoot and choose in [1,2]:
+            choose = 2
             AI2.AI_shot()
             if (1 in AI2.Map) == False:
                 cfg.set("Points","AI1_PTS",str(cfg["Points"].getint("AI1_PTS") + 1))
